@@ -1,5 +1,4 @@
 # User additions
-*.secrets.json
 coverage.info
 
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode
