@@ -9,6 +9,10 @@ using StockportGovUK.AspNetCore.Middleware;
 using StockportGovUK.AspNetCore.Availability;
 using StockportGovUK.AspNetCore.Availability.Middleware;
 using Swashbuckle.AspNetCore.Swagger;
+using compliments_complaints_service.Services;
+using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
+using StockportGovUK.AspNetCore.Polly;
+using StockportGovUK.AspNetCore.Gateways;
 
 namespace compliments_complaints_service
 {
@@ -45,6 +49,10 @@ namespace compliments_complaints_service
             services.AddHttpClient();
 
             services.AddAvailability();
+            services.AddTransient<ICaseService, CaseService>();
+            services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
+
+            services.AddHttpClients<IGateway, Gateway>(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

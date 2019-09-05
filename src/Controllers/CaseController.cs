@@ -6,11 +6,12 @@ using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;
+using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 
 namespace fostering_service.Controllers.Case
 {
     [Produces("application/json")]
-    [Route("api/v1/[Controller]")]
+    [Route("api/v1/Compliment")]
     [ApiController]
     [TokenAuthentication]
     public class CaseController : ControllerBase
@@ -24,13 +25,14 @@ namespace fostering_service.Controllers.Case
             _logger = logger;
         }
 
-        [Route("case")]
+        [Route("submit-compliment")]
         [HttpPost]
-        public async Task<IActionResult> CreateCase([FromQuery]List<Answer> data)
+        public async Task<IActionResult> CreateCase([FromBody]ComplimentDetails model)
         {
             try
             {
                 //var result = await _caseService.GetCase(caseId);
+                await _caseService.CreateComplimentCase(model);
 
                 return null;
             }
