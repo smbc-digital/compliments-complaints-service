@@ -70,9 +70,11 @@ namespace compliments_complaints_service
             app.UseMiddleware<ExceptionHandling>();
             app.UseHttpsRedirection();
             app.UseSwagger();
+
+            var swaggerPrefix = env.IsDevelopment() ? string.Empty : "/complimentscomplaintsservice";
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "compliments_complaints_service API");
+                c.SwaggerEndpoint($"{swaggerPrefix}/swagger/v1/swagger.json", "compliments_complaints_service API");
             });
             app.UseMvc();
         }
