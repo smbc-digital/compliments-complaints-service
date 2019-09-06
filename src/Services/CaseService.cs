@@ -1,11 +1,10 @@
-﻿using compliments_complaints_service.Models;
-using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
-using StockportGovUK.NetStandard.Models.Enums;
+﻿using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
 using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using StockportGovUK.AspNetCore.Gateways.Response;
 
 namespace compliments_complaints_service.Services
 {
@@ -13,7 +12,6 @@ namespace compliments_complaints_service.Services
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
 //        private readonly ILogger<HomeVisitService> _logger;
-        private readonly string _integrationFormName = "Compliments";
 
         public CaseService(IVerintServiceGateway verintServiceGateway)
         {
@@ -23,7 +21,7 @@ namespace compliments_complaints_service.Services
 
 
 
-        public async Task<bool> CreateComplimentCase(ComplimentDetails model)
+        public async Task<HttpResponse<CreateCaseResponse>> CreateComplimentCase(ComplimentDetails model)
         {
             var crmCase = new Case
             {
@@ -39,8 +37,7 @@ namespace compliments_complaints_service.Services
                 throw new Exception("Create compliment failure");
             }
 
-            return true;
-            //return completed ? ETaskStatus.Completed : ETaskStatus.NotCompleted;
+            return response;
         }
 
     }

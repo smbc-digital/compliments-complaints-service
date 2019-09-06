@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
+﻿using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using System.Threading.Tasks;
-using compliments_complaints_service.Models;
+using StockportGovUK.AspNetCore.Gateways.Response;
 
 namespace compliments_complaints_service.Services
 {
     public interface ICaseService
     {
-        Task<bool> CreateComplimentCase(ComplimentDetails data);
+        Task<HttpResponse<CreateCaseResponse>> CreateComplimentCase(ComplimentDetails data);
     }
 
 

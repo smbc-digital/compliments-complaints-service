@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using compliments_complaints_service.Models;
 using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;
 using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 
-namespace fostering_service.Controllers.Case
+namespace compliments_complaints_service.Controllers
 {
     [Produces("application/json")]
     [Route("api/v1/Compliment")]
     [ApiController]
     [TokenAuthentication]
-    public class CaseController : ControllerBase
+    public class ComplimentController : ControllerBase
     {
         private readonly ICaseService _caseService;
-        private readonly ILogger<CaseController> _logger;
+        private readonly ILogger<ComplimentController> _logger;
 
-        public CaseController(ICaseService caseService, ILogger<CaseController> logger)
+        public ComplimentController(ICaseService caseService, ILogger<ComplimentController> logger)
         {
             _caseService = caseService;
             _logger = logger;
@@ -31,10 +29,10 @@ namespace fostering_service.Controllers.Case
         {
             try
             {
-                //var result = await _caseService.GetCase(caseId);
-                await _caseService.CreateComplimentCase(model);
+                var result = await _caseService.CreateComplimentCase(model);
+                //await _caseService.CreateComplimentCase(model);
 
-                return null;
+                return Ok(result);
             }
             catch (Exception ex)
             {
