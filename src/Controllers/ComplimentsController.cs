@@ -9,7 +9,7 @@ using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 namespace compliments_complaints_service.Controllers
 {
     [Produces("application/json")]
-    [Route("api/v1/Compliment")]
+    [Route("api/v1/Compliments")]
     [ApiController]
     [TokenAuthentication]
     public class ComplimentsController : ControllerBase
