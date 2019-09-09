@@ -4,6 +4,7 @@ using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using StockportGovUK.AspNetCore.Gateways.Response;
 
 namespace compliments_complaints_service.Services
@@ -11,12 +12,12 @@ namespace compliments_complaints_service.Services
     public class CaseService : ICaseService
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
-//        private readonly ILogger<HomeVisitService> _logger;
+        private readonly ILogger<CaseService> _logger;
 
-        public CaseService(IVerintServiceGateway verintServiceGateway)
+        public CaseService(IVerintServiceGateway verintServiceGateway, ILogger<CaseService> logger)
         {
             _verintServiceGateway = verintServiceGateway;
-//            _logger = logger;
+            _logger = logger;
         }
 
 
@@ -34,11 +35,11 @@ namespace compliments_complaints_service.Services
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
+                _logger.LogWarning($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service, statuscode: {response.StatusCode}");
                 throw new Exception("Create compliment failure");
             }
 
             return response;
         }
-
     }
 }
