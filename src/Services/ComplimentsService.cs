@@ -9,25 +9,23 @@ using StockportGovUK.AspNetCore.Gateways.Response;
 
 namespace compliments_complaints_service.Services
 {
-    public class CaseService : ICaseService
+    public class ComplimentsService : IComplimentsService
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
-        private readonly ILogger<CaseService> _logger;
+        private readonly ILogger<ComplimentsService> _logger;
 
-        public CaseService(IVerintServiceGateway verintServiceGateway, ILogger<CaseService> logger)
+        public ComplimentsService(IVerintServiceGateway verintServiceGateway, ILogger<ComplimentsService> logger)
         {
             _verintServiceGateway = verintServiceGateway;
             _logger = logger;
         }
-
-
 
         public async Task<HttpResponse<CreateCaseResponse>> CreateComplimentCase(ComplimentDetails model)
         {
             var crmCase = new Case
             {
                 EventCode = int.Parse(model.EventCode),
-                EventTitle = "Compliment",
+                EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentOther) ? "Compliment" : $"Compliment - {model.CouncilDepartmentOther}",
                 Description = string.IsNullOrEmpty(model.Name) ? model.Compliment : $"{model.Compliment} - {model.Name}"
             };
 

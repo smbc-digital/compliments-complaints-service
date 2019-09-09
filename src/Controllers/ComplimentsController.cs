@@ -12,12 +12,12 @@ namespace compliments_complaints_service.Controllers
     [Route("api/v1/Compliment")]
     [ApiController]
     [TokenAuthentication]
-    public class ComplimentController : ControllerBase
+    public class ComplimentsController : ControllerBase
     {
-        private readonly ICaseService _caseService;
-        private readonly ILogger<ComplimentController> _logger;
+        private readonly IComplimentsService _caseService;
+        private readonly ILogger<ComplimentsController> _logger;
 
-        public ComplimentController(ICaseService caseService, ILogger<ComplimentController> logger)
+        public ComplimentsController(IComplimentsService caseService, ILogger<ComplimentsController> logger)
         {
             _caseService = caseService;
             _logger = logger;

@@ -13,15 +13,15 @@ using Xunit;
 
 namespace compliments_complaints_service_tests.Service
 {
-    public class CaseServiceTests
+    public class ComplimentsServiceTests
     {
-        private readonly CaseService _service;
+        private readonly ComplimentsService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
-        private readonly Mock<ILogger<CaseService>> _mockLogger = new Mock<ILogger<CaseService>>();
+        private readonly Mock<ILogger<ComplimentsService>> _mockLogger = new Mock<ILogger<ComplimentsService>>();
 
-        public CaseServiceTests()
+        public ComplimentsServiceTests()
         {
-            _service = new CaseService(_mockGateway.Object, _mockLogger.Object);
+            _service = new ComplimentsService(_mockGateway.Object, _mockLogger.Object);
         }
 
         [Fact]

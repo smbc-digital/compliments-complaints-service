@@ -49,7 +49,7 @@ namespace compliments_complaints_service
             services.AddHttpClient();
 
             services.AddAvailability();
-            services.AddTransient<ICaseService, CaseService>();
+            services.AddTransient<IComplimentsService, ComplimentsService>();
             services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
 
             services.AddHttpClients<IGateway, Gateway>(Configuration);

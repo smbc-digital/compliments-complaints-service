@@ -4,7 +4,7 @@ using StockportGovUK.AspNetCore.Gateways.Response;
 
 namespace compliments_complaints_service.Services
 {
-    public interface ICaseService
+    public interface IComplimentsService
     {
         Task<HttpResponse<CreateCaseResponse>> CreateComplimentCase(ComplimentDetails data);
     }
