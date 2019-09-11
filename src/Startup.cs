@@ -52,7 +52,7 @@ namespace compliments_complaints_service
             services.AddTransient<IComplimentsService, ComplimentsService>();
             services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
 
-            services.AddHttpClients<IGateway, Gateway>(Configuration);
+            services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
