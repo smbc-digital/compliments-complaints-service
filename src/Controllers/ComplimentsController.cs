@@ -36,7 +36,7 @@ namespace compliments_complaints_service.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogWarning($"CaseController GetCase an exception has occured while calling compliments complaints getCase, ex: {ex}");
+                _logger.LogWarning($"CaseController CreateCase an exception has occured while calling compliments complaints createCase, ex: {ex}");
                 return StatusCode(500, ex);
             }
         }
