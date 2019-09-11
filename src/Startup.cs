@@ -11,7 +11,6 @@ using StockportGovUK.AspNetCore.Availability.Middleware;
 using Swashbuckle.AspNetCore.Swagger;
 using compliments_complaints_service.Services;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
-using StockportGovUK.AspNetCore.Polly;
 using StockportGovUK.AspNetCore.Gateways;
 
 namespace compliments_complaints_service
