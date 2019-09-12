@@ -67,7 +67,7 @@ namespace compliments_complaints_service
             
             app.UseMiddleware<Availability>();
             app.UseMiddleware<ExceptionHandling>();
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseSwagger();
 
             var swaggerPrefix = env.IsDevelopment() ? string.Empty : "/complimentscomplaintsservice";
