@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;
 using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
+using Newtonsoft.Json;
 
 namespace compliments_complaints_service.Controllers
 {
@@ -33,7 +34,7 @@ namespace compliments_complaints_service.Controllers
                 var result = await _caseService.CreateComplimentCase(model);
                 //await _caseService.CreateComplimentCase(model);
 
-                _logger.LogWarning($"******result of create case OK{result}");
+                _logger.LogWarning($"******result of create case OK{JsonConvert.SerializeObject(result)}");
                 return Ok(result);
             }
             catch (Exception ex)
