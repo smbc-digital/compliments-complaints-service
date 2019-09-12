@@ -27,11 +27,13 @@ namespace compliments_complaints_service.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCase([FromBody]ComplimentDetails model)
         {
+            _logger.LogWarning("******starting create case");
             try
             {
                 var result = await _caseService.CreateComplimentCase(model);
                 //await _caseService.CreateComplimentCase(model);
 
+                _logger.LogWarning($"******result of create case OK{result}");
                 return Ok(result);
             }
             catch (Exception ex)
