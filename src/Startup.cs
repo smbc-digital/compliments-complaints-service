@@ -62,7 +62,7 @@ namespace compliments_complaints_service
             }
             else
             {
-                app.UseHsts();
+            //    app.UseHsts();
             }
             
             app.UseMiddleware<Availability>();
