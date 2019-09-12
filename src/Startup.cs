@@ -62,12 +62,12 @@ namespace compliments_complaints_service
             }
             else
             {
-            //    app.UseHsts();
+                app.UseHsts();
             }
             
             app.UseMiddleware<Availability>();
             app.UseMiddleware<ExceptionHandling>();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseSwagger();
 
             var swaggerPrefix = env.IsDevelopment() ? string.Empty : "/complimentscomplaintsservice";
