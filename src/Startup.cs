@@ -29,6 +29,11 @@ namespace compliments_complaints_service
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
+            services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
+
+            services.AddTransient<IComplimentsService, ComplimentsService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "compliments_complaints_service API", Version = "v1" });
@@ -48,10 +53,6 @@ namespace compliments_complaints_service
             services.AddHttpClient();
 
             services.AddAvailability();
-            services.AddTransient<IComplimentsService, ComplimentsService>();
-            services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
-
-            services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
