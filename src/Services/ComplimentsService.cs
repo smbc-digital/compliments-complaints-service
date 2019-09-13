@@ -31,7 +31,7 @@ namespace compliments_complaints_service.Services
 
             var response = await _verintServiceGateway.CreateCase(crmCase);
 
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode != HttpStatusCode.Created)
             {
                 _logger.LogWarning($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service, statuscode: {response.StatusCode}");
                 throw new Exception("Create compliment failure");
