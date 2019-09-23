@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using compliments_complaints_service.Services;
 using Microsoft.Extensions.Logging;
@@ -30,13 +31,10 @@ namespace compliments_complaints_service_tests.Service
             // Arrange 
             _mockGateway
                 .Setup(_ => _.CreateCase(It.IsAny<Case>()))
-                .ReturnsAsync(new HttpResponse<CreateCaseResponse>
+                .ReturnsAsync(new HttpResponse<string>
                 {
                     StatusCode = HttpStatusCode.OK,
-                    ResponseContent = new CreateCaseResponse
-                    {
-                        CaseID = "123456"
-                    }
+                    ResponseContent = "123456"
                 });
 
             var model = new ComplimentDetails
@@ -58,13 +56,10 @@ namespace compliments_complaints_service_tests.Service
             // Arrange
             _mockGateway
                 .Setup(_ => _.CreateCase(It.IsAny<Case>()))
-                .ReturnsAsync(new HttpResponse<CreateCaseResponse>
+                .ReturnsAsync(new HttpResponse<string>
                 {
                     StatusCode = HttpStatusCode.OK,
-                    ResponseContent = new CreateCaseResponse
-                    {
-                        CaseID = "123456"
-                    }
+                    ResponseContent = "123456"
                 });
 
             var model = new ComplimentDetails
@@ -77,7 +72,7 @@ namespace compliments_complaints_service_tests.Service
             var response = await _service.CreateComplimentCase(model);
 
             // Assert
-            Assert.Equal("123456", response.ResponseContent.CaseID);
+            Assert.Equal("123456", response.ResponseContent);
         }
 
         [Fact]
@@ -86,10 +81,7 @@ namespace compliments_complaints_service_tests.Service
             // Arrange
             _mockGateway
                 .Setup(_ => _.CreateCase(It.IsAny<Case>()))
-                .ReturnsAsync(new HttpResponse<CreateCaseResponse>
-                {
-                    StatusCode = HttpStatusCode.InternalServerError
-                });
+                .Throws<Exception>();
 
             var model = new ComplimentDetails
             {

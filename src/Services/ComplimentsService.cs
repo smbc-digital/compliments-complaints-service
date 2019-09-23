@@ -3,6 +3,7 @@ using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using StockportGovUK.AspNetCore.Gateways.Response;
@@ -20,7 +21,7 @@ namespace compliments_complaints_service.Services
             _logger = logger;
         }
 
-        public async Task<HttpResponse<CreateCaseResponse>> CreateComplimentCase(ComplimentDetails model)
+        public async Task<HttpResponse<string>> CreateComplimentCase(ComplimentDetails model)
         {
             var crmCase = new Case
             {
@@ -29,15 +30,17 @@ namespace compliments_complaints_service.Services
                 Description = string.IsNullOrEmpty(model.Name) ? model.Compliment : $"{model.Compliment} - {model.Name}"
             };
 
-            var response = await _verintServiceGateway.CreateCase(crmCase);
-
-            if (response.StatusCode != HttpStatusCode.Created)
+            try
             {
-                _logger.LogWarning($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service, statuscode: {response.StatusCode}");
-                throw new Exception("Create compliment failure");
+                var response = await _verintServiceGateway.CreateCase(crmCase);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service", ex);
             }
 
-            return response;
+           
         }
     }
 }

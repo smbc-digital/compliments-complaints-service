@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using compliments_complaints_service.Controllers;
 using compliments_complaints_service.Services;
@@ -30,7 +31,7 @@ namespace compliments_complaints_service_tests.Controller
             // Arrange
             _mockService
                 .Setup(_ => _.CreateComplimentCase(It.IsAny<ComplimentDetails>()))
-                .ReturnsAsync(It.IsAny<HttpResponse<CreateCaseResponse>>());
+                .ReturnsAsync(It.IsAny<HttpResponse<string>>());
 
             // Act
             await _controller.CreateCase(It.IsAny<ComplimentDetails>());
@@ -45,7 +46,7 @@ namespace compliments_complaints_service_tests.Controller
             // Arrange
             _mockService
                 .Setup(_ => _.CreateComplimentCase(It.IsAny<ComplimentDetails>()))
-                .ReturnsAsync(new HttpResponse<CreateCaseResponse>());
+                .ReturnsAsync(new HttpResponse<string>());
 
             // Act
             var result =  await _controller.CreateCase(It.IsAny<ComplimentDetails>());
