@@ -24,8 +24,7 @@ namespace compliments_complaints_service.Services
         {
             var crmCase = new Case
             {
-                //EventCode = int.Parse(model.EventCode),
-                EventCode = 4000000,
+                EventCode = int.Parse(model.EventCode),
                 EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
                 Description = model.ComplainAboutDetails,
                 Customer = new Customer
