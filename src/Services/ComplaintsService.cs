@@ -19,5 +19,34 @@ namespace compliments_complaints_service.Services
             _verintServiceGateway = verintServiceGateway;
             _logger = logger;
         }
+
+        public async Task<string> CreateComplaintCase(ComplaintDetails model)
+        {
+            var crmCase = new Case
+            {
+                //EventCode = int.Parse(model.EventCode),
+                EventCode = 4000000,
+                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
+                Description = model.ComplainAboutDetails,
+                Customer = new Customer
+                {
+                    Forename = model.FirstName,
+                    Surname = model.LastName,
+                    Email = model.EmailAddress,
+                    Telephone = model.PhoneNumber,
+                    Address = model.Address
+                }
+            };
+
+            try
+            {
+                var response = await _verintServiceGateway.CreateCase(crmCase);
+                return response.ResponseContent;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service", ex);
+            }
+        }
     }
 }

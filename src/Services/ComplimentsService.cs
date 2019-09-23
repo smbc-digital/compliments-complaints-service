@@ -21,7 +21,7 @@ namespace compliments_complaints_service.Services
             _logger = logger;
         }
 
-        public async Task<HttpResponse<string>> CreateComplimentCase(ComplimentDetails model)
+        public async Task<string> CreateComplimentCase(ComplimentDetails model)
         {
             var crmCase = new Case
             {
@@ -33,14 +33,12 @@ namespace compliments_complaints_service.Services
             try
             {
                 var response = await _verintServiceGateway.CreateCase(crmCase);
-                return response;
+                return response.ResponseContent;
             }
             catch (Exception ex)
             {
                 throw new Exception($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service", ex);
             }
-
-           
         }
     }
 }

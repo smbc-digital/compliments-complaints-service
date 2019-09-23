@@ -31,7 +31,7 @@ namespace compliments_complaints_service_tests.Controller
             // Arrange
             _mockService
                 .Setup(_ => _.CreateComplimentCase(It.IsAny<ComplimentDetails>()))
-                .ReturnsAsync(It.IsAny<HttpResponse<string>>());
+                .ReturnsAsync(It.IsAny<string>());
 
             // Act
             await _controller.CreateCase(It.IsAny<ComplimentDetails>());
@@ -46,7 +46,7 @@ namespace compliments_complaints_service_tests.Controller
             // Arrange
             _mockService
                 .Setup(_ => _.CreateComplimentCase(It.IsAny<ComplimentDetails>()))
-                .ReturnsAsync(new HttpResponse<string>());
+                .ReturnsAsync(It.IsAny<string>());
 
             // Act
             var result =  await _controller.CreateCase(It.IsAny<ComplimentDetails>());

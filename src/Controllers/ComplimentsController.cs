@@ -9,29 +9,29 @@ using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 namespace compliments_complaints_service.Controllers
 {
     [Produces("application/json")]
-    [Route("api/v1/Complaints")]
+    [Route("api/v1/Compliments")]
     [ApiController]
     [TokenAuthentication]
-    public class ComplaintsController : ControllerBase
+    public class ComplimentsController : ControllerBase
     {
-        //private readonly IComplaintsService _caseService;
-        private readonly ILogger<ComplaintsController> _logger;
+        private readonly IComplimentsService _caseService;
+        private readonly ILogger<ComplimentsController> _logger;
 
-        public ComplaintsController(ILogger<ComplaintsController> logger)
+        public ComplimentsController(IComplimentsService caseService, ILogger<ComplimentsController> logger)
         {
-            //_caseService = caseService;
+            _caseService = caseService;
             _logger = logger;
         }
 
-        [Route("submit-complaint")]
+        [Route("submit-compliment")]
         [HttpPost]
-        public async Task<IActionResult> CreateCase([FromBody]ComplaintDetails model)
+        public async Task<IActionResult> CreateCase([FromBody]ComplimentDetails model)
         {
             try
             {
-                //var result = await _caseService.CreateComplaintCase(model);
+                var result = await _caseService.CreateComplimentCase(model);
 
-                return Ok();
+                return Ok(result);
             }
             catch (Exception ex)
             {

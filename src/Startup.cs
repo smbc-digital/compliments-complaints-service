@@ -49,6 +49,7 @@ namespace compliments_complaints_service
 
             services.AddAvailability();
             services.AddTransient<IComplimentsService, ComplimentsService>();
+            services.AddTransient<IComplaintsService, ComplaintsService>();
             services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
 
             services.AddResilientHttpClients<IGateway, Gateway>(Configuration);

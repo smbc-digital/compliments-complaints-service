@@ -72,7 +72,7 @@ namespace compliments_complaints_service_tests.Service
             var response = await _service.CreateComplimentCase(model);
 
             // Assert
-            Assert.Equal("123456", response.ResponseContent);
+            Assert.Equal("123456", response);
         }
 
         [Fact]

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using StockportGovUK.AspNetCore.Gateways.Response;
+using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 
 namespace compliments_complaints_service.Services
 {
-    public class IComplaintsService
+    public interface IComplaintsService
     {
-
+        Task<string> CreateComplaintCase(ComplaintDetails model);
     }
 }
