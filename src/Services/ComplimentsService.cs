@@ -2,11 +2,8 @@
 using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using StockportGovUK.AspNetCore.Gateways.Response;
 
 namespace compliments_complaints_service.Services
 {
