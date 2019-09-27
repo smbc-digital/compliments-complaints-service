@@ -20,11 +20,15 @@ namespace compliments_complaints_service.Services
 
         public async Task<string> CreateFeedbackCase(FeedbackDetails model)
         {
+            string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
+            string email = string.IsNullOrEmpty(model.Email) ? "Not provided" : model.Email;
+            string description = string.Format("Name: {0} {1} Email: {2} {3} {4} Feedback: {5}", name, Environment.NewLine, email, Environment.NewLine, Environment.NewLine, model.Feedback);
+
             var crmCase = new Case
             {
                 EventCode = int.Parse(model.EventCode),
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentOther) ? "Feedback" : $"Feedback - {model.CouncilDepartmentOther}",
-                Description = string.IsNullOrEmpty(model.Name) ? model.Feedback : $"{model.Feedback} - {model.Name} - {model.Email}"
+                Description = description
             };
 
             try
