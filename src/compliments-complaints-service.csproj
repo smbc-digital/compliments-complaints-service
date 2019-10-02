@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Config\complaints.json" />
+    <Content Remove="Config\compliments.json" />
     <Content Remove="Config\feedback.json" />
   </ItemGroup>
 
@@ -34,6 +36,8 @@
     <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Config\complaints.json" />
+    <None Include="Config\compliments.json" />
     <None Include="Config\feedback.json" />
     <None Include="License.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using compliments_complaints_service.Utils;
 
 namespace compliments_complaints_service.Services
 {
@@ -20,13 +21,22 @@ namespace compliments_complaints_service.Services
 
         public async Task<string> CreateComplimentCase(ComplimentDetails model)
         {
+            int eventCode;
+            EventCodesHelper eventCodesHelper = new EventCodesHelper();
+
+            eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? eventCodesHelper.getRealEventCode(model.CouncilDepartment, "compliments")
+                : eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "compliments");
+
+            if (eventCode == 0) eventCode = 4000000;
+
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
-            string description = string.Format("Name: {0} {1} {2} Feedback: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
+            string description = string.Format("Name: {0} {1} {2} Compliments: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
 
 
             var crmCase = new Case
             {
-                EventCode = int.Parse(model.EventCode),
+                EventCode = eventCode,
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentOther) ? "Compliment" : $"Compliment - {model.CouncilDepartmentOther}",
                 Description = description
             };

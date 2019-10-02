@@ -1,0 +1,82 @@
+﻿[
+  {
+    "EventName": "bins",
+    "EventCode": 4000001
+  },
+  {
+    "EventName": "births",
+    "EventCode": 4000002
+  },
+  {
+    "EventName": "contact",
+    "EventCode": 4000003
+  },
+  {
+    "EventName": "cemeteries",
+    "EventCode": 4000007
+  },
+  {
+    "EventName": "elections",
+    "EventCode": 4000008
+  },
+  {
+    "EventName": "grass",
+    "EventCode": 4000011
+  },
+  {
+    "EventName": "libraries",
+    "EventCode": 2002823
+  },
+  {
+    "EventName": "parks",
+    "EventCode": 4000011
+  },
+  {
+    "EventName": "parking",
+    "EventCode": 4000014
+  },
+  {
+    "EventName": "roads",
+    "EventCode": 4000017
+  },
+  {
+    "EventName": "museums",
+    "EventCode": 4000019
+  },
+  {
+    "EventName": "trading",
+    "EventCode": 4000020
+  },
+  {
+    "EventName": "none",
+    "EventCode": 2007854
+  },
+  {
+    "EventName": "council",
+    "EventCode": 4000004
+  },
+  {
+    "EventName": "benefits",
+    "EventCode": 4000005
+  },
+  {
+    "EventName": "business",
+    "EventCode": 4000006
+  },
+  {
+    "EventName": "planning",
+    "EventCode": 4000016
+  },
+  {
+    "EventName": "building",
+    "EventCode": 4000015
+  },
+  {
+    "EventName": "environment",
+    "EventCode": 4000009
+  },
+  {
+    "EventName": "street",
+    "EventCode": 4000010
+  }
+]
