@@ -55,21 +55,21 @@ namespace compliments_complaints_service.Services
             else
             {
                 var splitAddress = model.ContactDetails.Address.SelectedAddress.Split(",");
+                crmCase.Customer.Address.AddressLine1 = splitAddress[0];
+                crmCase.Customer.Address.AddressLine2 = splitAddress[1];
+
                 if (splitAddress.Length == 5)
-                {
-                    crmCase.Customer.Address.AddressLine1 = splitAddress[0];
-                    crmCase.Customer.Address.AddressLine2 = splitAddress[1];
+                {    
                     crmCase.Customer.Address.AddressLine3 = splitAddress[2];
                     crmCase.Customer.Address.City = splitAddress[3];
                     crmCase.Customer.Address.Postcode = splitAddress[4];
                 }
                 else
                 {
-                    crmCase.Customer.Address.AddressLine1 = splitAddress[0];
-                    crmCase.Customer.Address.AddressLine2 = splitAddress[1];
                     crmCase.Customer.Address.City = splitAddress[2];
                     crmCase.Customer.Address.Postcode = splitAddress[3];
                 }
+
                 crmCase.Customer.Address.UPRN = model.ContactDetails.Address.PlaceRef;
             }
 

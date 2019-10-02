@@ -31,7 +31,7 @@ namespace compliments_complaints_service.Services
             if (eventCode == 0) eventCode = 4000000;
 
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
-            string description = string.Format("Name: {0} {1} {2} Compliments: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
+            string description = string.Format("Name: {0} {1} {2} Compliment: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
 
 
             var crmCase = new Case
