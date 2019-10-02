@@ -26,10 +26,7 @@ namespace compliments_complaints_service.Services
 
         public async Task<string> CreateFeedbackCase(FeedbackDetails model)
         {
-            int eventCode;
-            //EventCodesHelper eventCodesHelper = new EventCodesHelper();
-
-            eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
                 ? _eventCodesHelper.getRealEventCode(model.CouncilDepartment, "feedback")
                 : _eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "feedback");
 
