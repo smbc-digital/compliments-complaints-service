@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Text;
-using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
 using compliments_complaints_service.Utils;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using StockportGovUK.AspNetCore.Gateways.Response;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
