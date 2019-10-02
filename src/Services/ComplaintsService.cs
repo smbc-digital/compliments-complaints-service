@@ -12,21 +12,20 @@ namespace compliments_complaints_service.Services
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
         private readonly ILogger<ComplaintsService> _logger;
+        private readonly IEventCodesHelper _eventCodesHelper;
 
-        public ComplaintsService(IVerintServiceGateway verintServiceGateway, ILogger<ComplaintsService> logger)
+        public ComplaintsService(IVerintServiceGateway verintServiceGateway, ILogger<ComplaintsService> logger, IEventCodesHelper eventCodesHelper)
         {
             _verintServiceGateway = verintServiceGateway;
             _logger = logger;
+            _eventCodesHelper = eventCodesHelper;
         }
 
         public async Task<string> CreateComplaintCase(ComplaintDetails model)
         {
-            int eventCode;
-            EventCodesHelper eventCodesHelper = new EventCodesHelper();
-
-            eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? eventCodesHelper.getRealEventCode(model.CouncilDepartment, "complaints")
-                : eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "complaints");
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? _eventCodesHelper.getRealEventCode(model.CouncilDepartment, "complaints")
+                : _eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "complaints");
 
             if (eventCode == 0) eventCode = 2007854;
 

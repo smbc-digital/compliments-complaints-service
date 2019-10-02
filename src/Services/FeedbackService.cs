@@ -17,23 +17,23 @@ namespace compliments_complaints_service.Services
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
         private readonly ILogger<FeedbackService> _logger;
-        private readonly IOptions<EventModel> _feedbackCodes;
+        private readonly IEventCodesHelper _eventCodesHelper;
 
-        public FeedbackService(IVerintServiceGateway verintServiceGateway, ILogger<FeedbackService> logger, IOptions<EventModel> feedbackCodes)
+        public FeedbackService(IVerintServiceGateway verintServiceGateway, ILogger<FeedbackService> logger, IEventCodesHelper eventCodesHelper)
         {
             _verintServiceGateway = verintServiceGateway;
             _logger = logger;
-            _feedbackCodes = feedbackCodes;
+            _eventCodesHelper = eventCodesHelper;
         }
 
         public async Task<string> CreateFeedbackCase(FeedbackDetails model)
         {
             int eventCode;
-            EventCodesHelper eventCodesHelper = new EventCodesHelper();
+            //EventCodesHelper eventCodesHelper = new EventCodesHelper();
 
             eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? eventCodesHelper.getRealEventCode(model.CouncilDepartment, "feedback")
-                : eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "feedback");
+                ? _eventCodesHelper.getRealEventCode(model.CouncilDepartment, "feedback")
+                : _eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "feedback");
 
             if (eventCode == 0) eventCode = 4000030; 
 

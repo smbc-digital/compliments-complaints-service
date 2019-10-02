@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
+using compliments_complaints_service.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -21,14 +22,15 @@ namespace compliments_complaints_service_tests.Service
         private readonly FeedbackService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
         private readonly Mock<ILogger<FeedbackService>> _mockLogger = new Mock<ILogger<FeedbackService>>();
-        private readonly Mock<IOptions<EventModel>> _feedbackCodes = new Mock<IOptions<EventModel>>();
+        private readonly Mock<IEventCodesHelper> _mockEventCodeHelper = new Mock<IEventCodesHelper>();
 
         public FeedbackServiceTests()
         {
-            _service = new FeedbackService(_mockGateway.Object, _mockLogger.Object, _feedbackCodes.Object);
+            _service = new FeedbackService(_mockGateway.Object, _mockLogger.Object, _mockEventCodeHelper.Object);
         }
 
-        [Fact(Skip = "Not reading the feedback.json file")]
+        [Fact]
+        //[Fact(Skip = "Not reading the feedback.json file")]
         public async void CreateFeedbackCase_ShouldCallGateway()
         {
             // Arrange 
@@ -40,9 +42,13 @@ namespace compliments_complaints_service_tests.Service
                     ResponseContent = "123456"
                 });
 
+            _mockEventCodeHelper
+                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(123456);
+
             var model = new FeedbackDetails
             {
-                EventCode = "123456",
+                CouncilDepartment = "test",
                 Feedback = "test"
             };
 
@@ -53,7 +59,8 @@ namespace compliments_complaints_service_tests.Service
             _mockGateway.Verify(_ => _.CreateCase(It.IsAny<Case>()), Times.Once);
         }
 
-        [Fact(Skip = "Not reading the feedback.json file")]
+        //[Fact(Skip = "Not reading the feedback.json file")]
+        [Fact]
         public async void CreateFeedbackCase_ShouldReturnCaseId()
         {
             // Arrange
@@ -64,6 +71,10 @@ namespace compliments_complaints_service_tests.Service
                     StatusCode = HttpStatusCode.OK,
                     ResponseContent = "123456"
                 });
+
+            _mockEventCodeHelper
+                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(123456);
 
             var model = new FeedbackDetails
             {
@@ -78,7 +89,8 @@ namespace compliments_complaints_service_tests.Service
             Assert.Equal("123456", response);
         }
 
-        [Fact(Skip = "Not reading the feedback.json file")]
+        //[Fact(Skip = "Not reading the feedback.json file")]
+        [Fact]
         public async void CreateFeedbackCase_ShouldThrowException()
         {
             // Arrange

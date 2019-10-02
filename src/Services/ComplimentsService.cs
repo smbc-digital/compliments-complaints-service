@@ -12,26 +12,25 @@ namespace compliments_complaints_service.Services
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
         private readonly ILogger<ComplimentsService> _logger;
+        private readonly IEventCodesHelper _eventCodesHelper;
 
-        public ComplimentsService(IVerintServiceGateway verintServiceGateway, ILogger<ComplimentsService> logger)
+        public ComplimentsService(IVerintServiceGateway verintServiceGateway, ILogger<ComplimentsService> logger, IEventCodesHelper eventCodesHelper)
         {
             _verintServiceGateway = verintServiceGateway;
             _logger = logger;
+            _eventCodesHelper = eventCodesHelper;
         }
 
         public async Task<string> CreateComplimentCase(ComplimentDetails model)
         {
-            int eventCode;
-            EventCodesHelper eventCodesHelper = new EventCodesHelper();
-
-            eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? eventCodesHelper.getRealEventCode(model.CouncilDepartment, "compliments")
-                : eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "compliments");
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? _eventCodesHelper.getRealEventCode(model.CouncilDepartment, "compliments")
+                : _eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "compliments");
 
             if (eventCode == 0) eventCode = 4000000;
 
-            string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
-            string description = string.Format("Name: {0} {1} {2} Compliment: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
+            var name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
+            var description = string.Format("Name: {0} {1} {2} Compliment: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
 
 
             var crmCase = new Case
