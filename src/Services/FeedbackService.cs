@@ -16,13 +16,11 @@ namespace compliments_complaints_service.Services
     public class FeedbackService : IFeedbackService
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
-        private readonly ILogger<FeedbackService> _logger;
         private readonly IEventCodesHelper _eventCodesHelper;
 
-        public FeedbackService(IVerintServiceGateway verintServiceGateway, ILogger<FeedbackService> logger, IEventCodesHelper eventCodesHelper)
+        public FeedbackService(IVerintServiceGateway verintServiceGateway, IEventCodesHelper eventCodesHelper)
         {
             _verintServiceGateway = verintServiceGateway;
-            _logger = logger;
             _eventCodesHelper = eventCodesHelper;
         }
 

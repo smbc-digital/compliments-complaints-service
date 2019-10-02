@@ -17,7 +17,6 @@ namespace compliments_complaints_service_tests.Service
     {
         private readonly ComplaintsService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
-        private readonly Mock<ILogger<ComplaintsService>> _mockLogger = new Mock<ILogger<ComplaintsService>>();
         private readonly Mock<IEventCodesHelper> _mockEventCodeHelper = new Mock<IEventCodesHelper>();
         private readonly ComplaintDetails model = new ComplaintDetails
         {
@@ -33,7 +32,7 @@ namespace compliments_complaints_service_tests.Service
 
         public ComplaintsServiceTests()
         {
-            _service = new ComplaintsService(_mockGateway.Object, _mockLogger.Object, _mockEventCodeHelper.Object);
+            _service = new ComplaintsService(_mockGateway.Object, _mockEventCodeHelper.Object);
         }
 
         [Fact]

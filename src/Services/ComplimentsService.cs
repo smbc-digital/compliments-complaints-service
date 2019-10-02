@@ -11,13 +11,11 @@ namespace compliments_complaints_service.Services
     public class ComplimentsService : IComplimentsService
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
-        private readonly ILogger<ComplimentsService> _logger;
         private readonly IEventCodesHelper _eventCodesHelper;
 
-        public ComplimentsService(IVerintServiceGateway verintServiceGateway, ILogger<ComplimentsService> logger, IEventCodesHelper eventCodesHelper)
+        public ComplimentsService(IVerintServiceGateway verintServiceGateway, IEventCodesHelper eventCodesHelper)
         {
             _verintServiceGateway = verintServiceGateway;
-            _logger = logger;
             _eventCodesHelper = eventCodesHelper;
         }
 

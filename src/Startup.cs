@@ -13,6 +13,7 @@ using compliments_complaints_service.Services;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
 using StockportGovUK.AspNetCore.Gateways;
 using compliments_complaints_service.Config;
+using compliments_complaints_service.Utils;
 
 namespace compliments_complaints_service
 {
@@ -49,9 +50,15 @@ namespace compliments_complaints_service
             services.AddHttpClient();
 
             services.AddAvailability();
-            services.AddTransient<IComplimentsService, ComplimentsService>();
-            services.AddTransient<IComplaintsService, ComplaintsService>();
-            services.AddTransient<IFeedbackService, FeedbackService>();
+            services.AddTransient<IComplimentsService, ComplimentsService>(provider => new ComplimentsService(
+                provider.GetService<IVerintServiceGateway>(),
+                provider.GetService<IEventCodesHelper>()));
+            services.AddTransient<IComplaintsService, ComplaintsService>(provider => new ComplaintsService(
+                provider.GetService<IVerintServiceGateway>(),
+                provider.GetService<IEventCodesHelper>()));
+            services.AddTransient<IFeedbackService, FeedbackService>(provider => new FeedbackService(
+                provider.GetService<IVerintServiceGateway>(),
+                provider.GetService<IEventCodesHelper>()));
             services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
 
             services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
