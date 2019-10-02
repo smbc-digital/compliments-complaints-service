@@ -30,7 +30,6 @@ namespace compliments_complaints_service_tests.Service
         }
 
         [Fact]
-        //[Fact(Skip = "Not reading the feedback.json file")]
         public async void CreateFeedbackCase_ShouldCallGateway()
         {
             // Arrange 
@@ -59,7 +58,6 @@ namespace compliments_complaints_service_tests.Service
             _mockGateway.Verify(_ => _.CreateCase(It.IsAny<Case>()), Times.Once);
         }
 
-        //[Fact(Skip = "Not reading the feedback.json file")]
         [Fact]
         public async void CreateFeedbackCase_ShouldReturnCaseId()
         {
@@ -89,7 +87,6 @@ namespace compliments_complaints_service_tests.Service
             Assert.Equal("123456", response);
         }
 
-        //[Fact(Skip = "Not reading the feedback.json file")]
         [Fact]
         public async void CreateFeedbackCase_ShouldThrowException()
         {

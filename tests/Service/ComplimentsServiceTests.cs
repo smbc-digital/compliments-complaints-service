@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using compliments_complaints_service.Services;
+using compliments_complaints_service.Utils;
 using Microsoft.Extensions.Logging;
 using Moq;
 using StockportGovUK.AspNetCore.Gateways.Response;
@@ -19,13 +20,14 @@ namespace compliments_complaints_service_tests.Service
         private readonly ComplimentsService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
         private readonly Mock<ILogger<ComplimentsService>> _mockLogger = new Mock<ILogger<ComplimentsService>>();
+        private readonly Mock<IEventCodesHelper> _mockEventCodeHelper = new Mock<IEventCodesHelper>();
 
         public ComplimentsServiceTests()
         {
-            _service = new ComplimentsService(_mockGateway.Object, _mockLogger.Object);
+            _service = new ComplimentsService(_mockGateway.Object, _mockLogger.Object, _mockEventCodeHelper.Object);
         }
 
-        [Fact(Skip = "Not reading the compliments.json file")]
+        [Fact]
         public async void CreateComplimentCase_ShouldCallGateway()
         {
             // Arrange 
@@ -36,6 +38,10 @@ namespace compliments_complaints_service_tests.Service
                     StatusCode = HttpStatusCode.OK,
                     ResponseContent = "123456"
                 });
+
+            _mockEventCodeHelper
+                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(123456);
 
             var model = new ComplimentDetails
             {
@@ -50,7 +56,7 @@ namespace compliments_complaints_service_tests.Service
             _mockGateway.Verify(_ => _.CreateCase(It.IsAny<Case>()), Times.Once);
         }
 
-        [Fact(Skip = "Not reading the compliments.json file")]
+        [Fact]
         public async void CreateComplimentCase_ShouldReturnCaseId()
         {
             // Arrange
@@ -61,6 +67,10 @@ namespace compliments_complaints_service_tests.Service
                     StatusCode = HttpStatusCode.OK,
                     ResponseContent = "123456"
                 });
+
+            _mockEventCodeHelper
+                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(123456);
 
             var model = new ComplimentDetails
             {
@@ -75,7 +85,7 @@ namespace compliments_complaints_service_tests.Service
             Assert.Equal("123456", response);
         }
 
-        [Fact(Skip = "Not reading the compliments.json file")]
+        [Fact]
         public async void CreateComplimentCase_ShouldThrowException()
         {
             // Arrange
