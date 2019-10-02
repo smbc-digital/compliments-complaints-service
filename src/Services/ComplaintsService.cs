@@ -27,13 +27,41 @@ namespace compliments_complaints_service.Services
                 Description = model.ComplainAboutDetails,
                 Customer = new Customer
                 {
-                    Forename = model.FirstName,
-                    Surname = model.LastName,
-                    Email = model.EmailAddress,
-                    Telephone = model.PhoneNumber,
-                    Address = model.Address
+                    Forename = model.ContactDetails.FirstName,
+                    Surname = model.ContactDetails.LastName,
+                    Email = model.ContactDetails.EmailAddress,
+                    Telephone = model.ContactDetails.PhoneNumber,
+                    Address = new Address()
                 }
             };
+
+            if (string.IsNullOrEmpty(model.ContactDetails.Address.PlaceRef))
+            {
+                crmCase.Customer.Address.AddressLine1 = model.ContactDetails.Address.AddressLine1;
+                crmCase.Customer.Address.AddressLine2 = model.ContactDetails.Address.AddressLine2;
+                crmCase.Customer.Address.City = model.ContactDetails.Address.Town;
+                crmCase.Customer.Address.Postcode = model.ContactDetails.Address.Postcode;
+            }
+            else
+            {
+                var splitAddress = model.ContactDetails.Address.SelectedAddress.Split(",");
+                if (splitAddress.Length == 5)
+                {
+                    crmCase.Customer.Address.AddressLine1 = splitAddress[0];
+                    crmCase.Customer.Address.AddressLine2 = splitAddress[1];
+                    crmCase.Customer.Address.AddressLine3 = splitAddress[2];
+                    crmCase.Customer.Address.City = splitAddress[3];
+                    crmCase.Customer.Address.Postcode = splitAddress[4];
+                }
+                else
+                {
+                    crmCase.Customer.Address.AddressLine1 = splitAddress[0];
+                    crmCase.Customer.Address.AddressLine2 = splitAddress[1];
+                    crmCase.Customer.Address.City = splitAddress[2];
+                    crmCase.Customer.Address.Postcode = splitAddress[3];
+                }
+                crmCase.Customer.Address.UPRN = model.ContactDetails.Address.PlaceRef;
+            }
 
             try
             {

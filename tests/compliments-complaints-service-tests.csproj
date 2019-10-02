@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
     <PackageReference Include="Moq" Version="4.*" />
-    <PackageReference Include="StockportGovUK.AspNetCore.Gateways" Version="0.4.0-prerelease176" />
+    <PackageReference Include="StockportGovUK.AspNetCore.Gateways" Version="0.4.3-prerelease190" />
     <PackageReference Include="System.Net.Http" Version="4.*" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.*" />
     <PackageReference Include="xunit" Version="2.*" />

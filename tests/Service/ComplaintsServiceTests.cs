@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using StockportGovUK.AspNetCore.Gateways.Response;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
+using StockportGovUK.NetStandard.Models.Addresses;
+using StockportGovUK.NetStandard.Models.ContactDetails;
 using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Models.Verint;
 using Xunit;
@@ -21,7 +23,11 @@ namespace compliments_complaints_service_tests.Service
             EventCode = "4000010",
             ComplainAboutService = "Bins",
             CouncilDepartment = "4000010",
-            ComplainAboutDetails = "This is a test... Don't take it seriously"
+            ComplainAboutDetails = "This is a test... Don't take it seriously",
+            ContactDetails = new ContactDetails
+            {
+                Address = new StockportGovUK.NetStandard.Models.Addresses.Address()
+            }
         };
 
         public ComplaintsServiceTests()
