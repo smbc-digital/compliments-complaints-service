@@ -12,6 +12,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using compliments_complaints_service.Services;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
 using StockportGovUK.AspNetCore.Gateways;
+using compliments_complaints_service.Config;
 
 namespace compliments_complaints_service
 {
