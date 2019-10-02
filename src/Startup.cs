@@ -50,6 +50,7 @@ namespace compliments_complaints_service
             services.AddHttpClient();
 
             services.AddAvailability();
+            services.AddSingleton<IEventCodesHelper, EventCodesHelper>();
             services.AddTransient<IComplimentsService, ComplimentsService>(provider => new ComplimentsService(
                 provider.GetService<IVerintServiceGateway>(),
                 provider.GetService<IEventCodesHelper>()));
