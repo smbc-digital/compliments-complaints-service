@@ -20,10 +20,11 @@ namespace compliments_complaints_service_tests.Service
         private readonly ComplimentsService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
         private readonly Mock<IEventCodesHelper> _mockEventCodeHelper = new Mock<IEventCodesHelper>();
+        private readonly Mock<ILogger> _mockLogger = new Mock<ILogger>();
 
         public ComplimentsServiceTests()
         {
-            _service = new ComplimentsService(_mockGateway.Object, _mockEventCodeHelper.Object);
+            _service = new ComplimentsService(_mockGateway.Object, _mockEventCodeHelper.Object, _mockLogger.Object);
         }
 
         [Fact]

@@ -14,6 +14,7 @@ using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
 using StockportGovUK.AspNetCore.Gateways;
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace compliments_complaints_service
 {
@@ -53,7 +54,8 @@ namespace compliments_complaints_service
             services.AddSingleton<IEventCodesHelper, EventCodesHelper>();
             services.AddTransient<IComplimentsService, ComplimentsService>(provider => new ComplimentsService(
                 provider.GetService<IVerintServiceGateway>(),
-                provider.GetService<IEventCodesHelper>()));
+                provider.GetService<IEventCodesHelper>(),
+                provider.GetService<ILogger>()));
             services.AddTransient<IComplaintsService, ComplaintsService>(provider => new ComplaintsService(
                 provider.GetService<IVerintServiceGateway>(),
                 provider.GetService<IEventCodesHelper>()));
