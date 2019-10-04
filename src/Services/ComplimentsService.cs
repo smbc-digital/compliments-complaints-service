@@ -12,11 +12,13 @@ namespace compliments_complaints_service.Services
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
         private readonly IEventCodesHelper _eventCodesHelper;
+        private readonly ILogger _logger;
 
-        public ComplimentsService(IVerintServiceGateway verintServiceGateway, IEventCodesHelper eventCodesHelper)
+        public ComplimentsService(IVerintServiceGateway verintServiceGateway, IEventCodesHelper eventCodesHelper, ILogger logger)
         {
             _verintServiceGateway = verintServiceGateway;
             _eventCodesHelper = eventCodesHelper;
+            _logger = logger;
         }
 
         public async Task<string> CreateComplimentCase(ComplimentDetails model)
@@ -41,6 +43,7 @@ namespace compliments_complaints_service.Services
             try
             {
                 var response = await _verintServiceGateway.CreateCase(crmCase);
+                _logger.LogWarning(Newtonsoft.Json.JsonConvert.SerializeObject(response));
                 return response.ResponseContent;
             }
             catch (Exception ex)
