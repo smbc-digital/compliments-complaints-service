@@ -43,7 +43,6 @@ namespace compliments_complaints_service.Services
             try
             {
                 var response = await _verintServiceGateway.CreateCase(crmCase);
-                _logger.LogWarning(Newtonsoft.Json.JsonConvert.SerializeObject(response));
                 return response.ResponseContent;
             }
             catch (Exception ex)
