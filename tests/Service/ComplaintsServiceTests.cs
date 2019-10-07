@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
 using compliments_complaints_service.Utils;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using StockportGovUK.AspNetCore.Gateways.Response;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
@@ -17,7 +19,7 @@ namespace compliments_complaints_service_tests.Service
     {
         private readonly ComplaintsService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
-        private readonly Mock<IEventCodesHelper> _mockEventCodeHelper = new Mock<IEventCodesHelper>();
+        private readonly Mock<IOptions<ComplaintsListConfiguration>> _mockComplaintsList = new Mock<IOptions<ComplaintsListConfiguration>>();
         private readonly ComplaintDetails model = new ComplaintDetails
         {
             EventCode = "4000010",
@@ -32,7 +34,25 @@ namespace compliments_complaints_service_tests.Service
 
         public ComplaintsServiceTests()
         {
-            _service = new ComplaintsService(_mockGateway.Object, _mockEventCodeHelper.Object);
+            var config = new ComplaintsListConfiguration()
+            {
+                ComplaintsConfigurations = new List<ComplaintsConfiguration>
+                {
+                    new ComplaintsConfiguration()
+                    {
+                        EventName = "test",
+                        EventCode = 123456
+                    },
+                    new ComplaintsConfiguration
+                    {
+                        EventName = "none",
+                        EventCode = 654321
+                    }
+                }
+            };
+
+            _mockComplaintsList.Setup(_ => _.Value).Returns(config);
+            _service = new ComplaintsService(_mockGateway.Object, _mockComplaintsList.Object);
         }
 
         [Fact]
@@ -46,10 +66,6 @@ namespace compliments_complaints_service_tests.Service
                     StatusCode = HttpStatusCode.OK,
                     ResponseContent = "123456"
                 });
-
-            _mockEventCodeHelper
-                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(123456);
 
             // Act
             await _service.CreateComplaintCase(model);
@@ -69,10 +85,6 @@ namespace compliments_complaints_service_tests.Service
                     StatusCode = HttpStatusCode.OK,
                     ResponseContent = "123456"
                 });
-
-            _mockEventCodeHelper
-                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(123456);
 
             // Act
             var result = await _service.CreateComplaintCase(model);

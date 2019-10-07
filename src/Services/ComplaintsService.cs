@@ -2,34 +2,35 @@
 using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using compliments_complaints_service.Utils;
+using compliments_complaints_service.Config;
+using Microsoft.Extensions.Options;
 
 namespace compliments_complaints_service.Services
 {
     public class ComplaintsService : IComplaintsService
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
-        private readonly IEventCodesHelper _eventCodesHelper;
+        private readonly IOptions<ComplaintsListConfiguration> _complaintsConfig;
 
-        public ComplaintsService(IVerintServiceGateway verintServiceGateway, IEventCodesHelper eventCodesHelper)
+        public ComplaintsService(IVerintServiceGateway verintServiceGateway, IOptions<ComplaintsListConfiguration> complaintsConfig)
         {
             _verintServiceGateway = verintServiceGateway;
-            _eventCodesHelper = eventCodesHelper;
+            _complaintsConfig = complaintsConfig;
         }
 
         public async Task<string> CreateComplaintCase(ComplaintDetails model)
         {
-            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? _eventCodesHelper.getRealEventCode(model.CouncilDepartment, "complaints")
-                : _eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "complaints");
+            var events = _complaintsConfig.Value.ComplaintsConfigurations;
 
-            if (eventCode == 0) eventCode = 2007854;
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
+                  : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
             var crmCase = new Case
             {
-                EventCode = eventCode,
+                EventCode = (int) eventCode,
                 EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
                 Description = model.ComplainAboutDetails,
                 Customer = new Customer
