@@ -30,8 +30,8 @@ namespace compliments_complaints_service.Services
             var events = _feedbackConfig.Value.FeedbackConfigurations;
 
             var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none").EventCode
-                : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none").EventCode;
+                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
+                : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
             string email = string.IsNullOrEmpty(model.Email) ? "Not provided" : model.Email;
@@ -39,7 +39,7 @@ namespace compliments_complaints_service.Services
 
             var crmCase = new Case
             {
-                EventCode = eventCode,
+                EventCode = (int) eventCode,
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentOther) ? "Feedback" : $"Feedback - {model.CouncilDepartmentOther}",
                 Description = description
             };

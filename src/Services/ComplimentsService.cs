@@ -2,40 +2,38 @@
 using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using compliments_complaints_service.Utils;
+using compliments_complaints_service.Config;
+using Microsoft.Extensions.Options;
 
 namespace compliments_complaints_service.Services
 {
     public class ComplimentsService : IComplimentsService
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
-        private readonly IEventCodesHelper _eventCodesHelper;
-        private readonly ILogger _logger;
+        private readonly IOptions<ComplimentsListConfiguration> _complimentsConfig;
 
-        public ComplimentsService(IVerintServiceGateway verintServiceGateway, IEventCodesHelper eventCodesHelper, ILogger logger)
+        public ComplimentsService(IVerintServiceGateway verintServiceGateway, IOptions<ComplimentsListConfiguration> complimentsConfig)
         {
             _verintServiceGateway = verintServiceGateway;
-            _eventCodesHelper = eventCodesHelper;
-            _logger = logger;
+            _complimentsConfig = complimentsConfig;
         }
 
         public async Task<string> CreateComplimentCase(ComplimentDetails model)
         {
-            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? _eventCodesHelper.getRealEventCode(model.CouncilDepartment, "compliments")
-                : _eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "compliments");
+            var events = _complimentsConfig.Value.ComplimentsConfigurations;
 
-            if (eventCode == 0) eventCode = 4000000;
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
+                  : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
             var name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
             var description = string.Format("Name: {0} {1} {2} Compliment: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
 
-
             var crmCase = new Case
             {
-                EventCode = eventCode,
+                EventCode = (int) eventCode,
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentOther) ? "Compliment" : $"Compliment - {model.CouncilDepartmentOther}",
                 Description = description
             };

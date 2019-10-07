@@ -52,13 +52,13 @@ namespace compliments_complaints_service
             services.AddHttpClient();
 
             services.Configure<FeedbackListConfiguration>(Configuration.GetSection("FeedbackConfiguration"));
+            services.Configure<ComplimentsListConfiguration>(Configuration.GetSection("ComplimentsConfiguration"));
 
             services.AddAvailability();
             services.AddSingleton<IEventCodesHelper, EventCodesHelper>();
             services.AddTransient<IComplimentsService, ComplimentsService>(provider => new ComplimentsService(
                 provider.GetService<IVerintServiceGateway>(),
-                provider.GetService<IEventCodesHelper>(),
-                provider.GetService<ILogger>()));
+                provider.GetService<IOptions<ComplimentsListConfiguration>>()));
             services.AddTransient<IComplaintsService, ComplaintsService>(provider => new ComplaintsService(
                 provider.GetService<IVerintServiceGateway>(),
                 provider.GetService<IEventCodesHelper>()));
