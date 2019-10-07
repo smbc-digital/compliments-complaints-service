@@ -51,7 +51,7 @@ namespace compliments_complaints_service
 
             services.AddHttpClient();
 
-            services.Configure<FeedbackConfiguration>(Configuration.GetSection("FeedbackConfiguration"));
+            services.Configure<FeedbackListConfiguration>(Configuration.GetSection("FeedbackConfiguration"));
 
             services.AddAvailability();
             services.AddSingleton<IEventCodesHelper, EventCodesHelper>();

@@ -35,13 +35,13 @@ namespace compliments_complaints_service.Services
 
             var events = _feedbackConfig.Value.FeedbackConfigurations;
 
-            var eventCode = 0;
-            
+            var eventCode = events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? 0;
+
             //string.IsNullOrEmpty(model.CouncilDepartmentSub)
             //    ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)
             //    : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub);
 
-            if (eventCode == 0) eventCode = 4000030; 
+            if (eventCode == 0) eventCode = 4000030;
 
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
             string email = string.IsNullOrEmpty(model.Email) ? "Not provided" : model.Email;
