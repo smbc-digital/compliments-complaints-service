@@ -17,31 +17,21 @@ namespace compliments_complaints_service.Services
     public class FeedbackService : IFeedbackService
     {
         private readonly IVerintServiceGateway _verintServiceGateway;
-        private readonly IEventCodesHelper _eventCodesHelper;
         private readonly IOptions<FeedbackListConfiguration> _feedbackConfig;
 
-        public FeedbackService(IVerintServiceGateway verintServiceGateway, IEventCodesHelper eventCodesHelper, IOptions<FeedbackListConfiguration> feedbackConfig)
+        public FeedbackService(IVerintServiceGateway verintServiceGateway, IOptions<FeedbackListConfiguration> feedbackConfig)
         {
             _verintServiceGateway = verintServiceGateway;
-            _eventCodesHelper = eventCodesHelper;
             _feedbackConfig = feedbackConfig;
         }
 
         public async Task<string> CreateFeedbackCase(FeedbackDetails model)
         {
-            //var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-            //    ? _eventCodesHelper.getRealEventCode(model.CouncilDepartment, "FeedbackConfiguration")
-            //    : _eventCodesHelper.getRealEventCode(model.CouncilDepartmentSub, "FeedbackConfiguration");
-
             var events = _feedbackConfig.Value.FeedbackConfigurations;
 
-            var eventCode = events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? 0;
-
-            //string.IsNullOrEmpty(model.CouncilDepartmentSub)
-            //    ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)
-            //    : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub);
-
-            if (eventCode == 0) eventCode = 4000030;
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none").EventCode
+                : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none").EventCode;
 
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
             string email = string.IsNullOrEmpty(model.Email) ? "Not provided" : model.Email;

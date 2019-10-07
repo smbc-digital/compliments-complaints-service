@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
 using compliments_complaints_service.Utils;
+using Microsoft.Extensions.Options;
 using Moq;
 using StockportGovUK.AspNetCore.Gateways.Response;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
@@ -15,11 +18,29 @@ namespace compliments_complaints_service_tests.Service
     {
         private readonly FeedbackService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
-        private readonly Mock<IEventCodesHelper> _mockEventCodeHelper = new Mock<IEventCodesHelper>();
+        private readonly Mock<IOptions<FeedbackListConfiguration>> _mockFeedbackList = new Mock<IOptions<FeedbackListConfiguration>>();
 
         public FeedbackServiceTests()
         {
-            _service = new FeedbackService(_mockGateway.Object, _mockEventCodeHelper.Object);
+            var config = new FeedbackListConfiguration
+            {
+                FeedbackConfigurations = new List<FeedbackConfiguration>
+                {
+                    new FeedbackConfiguration
+                    {
+                        EventName = "test",
+                        EventCode = 123456
+                    },
+                    new FeedbackConfiguration
+                    {
+                        EventName = "none",
+                        EventCode = 654321
+                    }
+                }
+            };
+
+            _mockFeedbackList.Setup(_ => _.Value).Returns(config);
+            _service = new FeedbackService(_mockGateway.Object, _mockFeedbackList.Object);
         }
 
         [Fact]
@@ -33,10 +54,6 @@ namespace compliments_complaints_service_tests.Service
                     StatusCode = HttpStatusCode.OK,
                     ResponseContent = "123456"
                 });
-
-            _mockEventCodeHelper
-                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(123456);
 
             var model = new FeedbackDetails
             {
@@ -63,13 +80,9 @@ namespace compliments_complaints_service_tests.Service
                     ResponseContent = "123456"
                 });
 
-            _mockEventCodeHelper
-                .Setup(_ => _.getRealEventCode(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(123456);
-
             var model = new FeedbackDetails
             {
-                EventCode = "123456",
+                CouncilDepartment = "none",
                 Feedback = "test"
             };
 
@@ -90,7 +103,7 @@ namespace compliments_complaints_service_tests.Service
 
             var model = new FeedbackDetails
             {
-                EventCode = "123456",
+                CouncilDepartment = "test",
                 Feedback = "test"
             };
 

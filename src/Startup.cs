@@ -64,7 +64,6 @@ namespace compliments_complaints_service
                 provider.GetService<IEventCodesHelper>()));
             services.AddTransient<IFeedbackService, FeedbackService>(provider => new FeedbackService(
                 provider.GetService<IVerintServiceGateway>(),
-                provider.GetService<IEventCodesHelper>(),
                 provider.GetService<IOptions<FeedbackListConfiguration>>()));
             services.AddSingleton<IVerintServiceGateway, VerintServiceGateway>();
 
