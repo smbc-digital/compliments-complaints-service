@@ -56,7 +56,6 @@ namespace compliments_complaints_service
             services.Configure<ComplaintsListConfiguration>(Configuration.GetSection("ComplaintsConfiguration"));
 
             services.AddAvailability();
-            services.AddSingleton<IEventCodesHelper, EventCodesHelper>();
             services.AddTransient<IComplimentsService, ComplimentsService>(provider => new ComplimentsService(
                 provider.GetService<IVerintServiceGateway>(),
                 provider.GetService<IOptions<ComplimentsListConfiguration>>()));
