@@ -16,6 +16,7 @@ using compliments_complaints_service.Config;
 using compliments_complaints_service.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
 
 namespace compliments_complaints_service
 {
@@ -61,7 +62,8 @@ namespace compliments_complaints_service
                 provider.GetService<IOptions<ComplimentsListConfiguration>>()));
             services.AddTransient<IComplaintsService, ComplaintsService>(provider => new ComplaintsService(
                 provider.GetService<IVerintServiceGateway>(),
-                provider.GetService<IOptions<ComplaintsListConfiguration>>()));
+                provider.GetService<IOptions<ComplaintsListConfiguration>>(),
+                provider.GetService<IMailingServiceGateway>()));
             services.AddTransient<IFeedbackService, FeedbackService>(provider => new FeedbackService(
                 provider.GetService<IVerintServiceGateway>(),
                 provider.GetService<IOptions<FeedbackListConfiguration>>()));

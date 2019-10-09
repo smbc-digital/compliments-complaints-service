@@ -6,6 +6,7 @@ using compliments_complaints_service.Services;
 using compliments_complaints_service.Utils;
 using Microsoft.Extensions.Options;
 using Moq;
+using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
 using StockportGovUK.AspNetCore.Gateways.Response;
 using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
 using StockportGovUK.NetStandard.Models.ContactDetails;
@@ -19,6 +20,7 @@ namespace compliments_complaints_service_tests.Service
     {
         private readonly ComplaintsService _service;
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
+        private readonly Mock<IMailingServiceGateway> _mockMailingGateway = new Mock<IMailingServiceGateway>();
         private readonly Mock<IOptions<ComplaintsListConfiguration>> _mockComplaintsList = new Mock<IOptions<ComplaintsListConfiguration>>();
         private readonly ComplaintDetails model = new ComplaintDetails
         {
@@ -52,7 +54,7 @@ namespace compliments_complaints_service_tests.Service
             };
 
             _mockComplaintsList.Setup(_ => _.Value).Returns(config);
-            _service = new ComplaintsService(_mockGateway.Object, _mockComplaintsList.Object);
+            _service = new ComplaintsService(_mockGateway.Object, _mockComplaintsList.Object, _mockMailingGateway.Object);
         }
 
         [Fact]
