@@ -96,7 +96,7 @@ namespace compliments_complaints_service.Services
         {
             var submissionDetails = new ComplaintsMailModel()
             {
-                Subject = "Thanks for making a formal complaint",
+                Subject = "We've received your formal complaint",
                 Reference = caseResponse,
                 FirstName = model.ContactDetails.FirstName,
                 LastName = model.ContactDetails.LastName,
