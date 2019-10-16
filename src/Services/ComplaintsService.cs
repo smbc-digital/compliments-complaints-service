@@ -86,7 +86,7 @@ namespace compliments_complaints_service.Services
 
             try
             {
-                _logger.LogWarning("ComplaintsService.CreateComplaintCase: Attempting to create verint case.", crmCase);
+                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
                 var response = await _verintServiceGateway.CreateCase(crmCase);
                 SendUserSuccessEmail(model, response.ResponseContent);
                 return response.ResponseContent;
