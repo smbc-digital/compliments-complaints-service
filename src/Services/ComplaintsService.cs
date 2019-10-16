@@ -3,16 +3,14 @@ using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Models.Verint;
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using compliments_complaints_service.Config;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Remotion.Linq.Clauses;
 using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
-using StockportGovUK.AspNetCore.Gateways.Response;
 using StockportGovUK.NetStandard.Models.Enums;
 using StockportGovUK.NetStandard.Models.Models.Mail;
+using Microsoft.Extensions.Logging;
 
 namespace compliments_complaints_service.Services
 {
@@ -21,12 +19,18 @@ namespace compliments_complaints_service.Services
         private readonly IVerintServiceGateway _verintServiceGateway;
         private readonly IOptions<ComplaintsListConfiguration> _complaintsConfig;
         private readonly IMailingServiceGateway _mailingServiceGateway;
+        private readonly ILogger<ComplaintsService> _logger;
 
-        public ComplaintsService(IVerintServiceGateway verintServiceGateway, IOptions<ComplaintsListConfiguration> complaintsConfig, IMailingServiceGateway mailingServiceGateway)
+        public ComplaintsService(
+            IVerintServiceGateway verintServiceGateway, 
+            IOptions<ComplaintsListConfiguration> complaintsConfig, 
+            IMailingServiceGateway mailingServiceGateway,
+            ILogger<ComplaintsService> logger)
         {
             _verintServiceGateway = verintServiceGateway;
             _complaintsConfig = complaintsConfig;
             _mailingServiceGateway = mailingServiceGateway;
+            _logger = logger;
         }
 
         public async Task<string> CreateComplaintCase(ComplaintDetails model)
@@ -82,6 +86,7 @@ namespace compliments_complaints_service.Services
 
             try
             {
+                _logger.LogWarning("ComplaintsService.CreateComplaintCase: Attempting to create verint case.", crmCase);
                 var response = await _verintServiceGateway.CreateCase(crmCase);
                 SendUserSuccessEmail(model, response.ResponseContent);
                 return response.ResponseContent;

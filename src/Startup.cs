@@ -63,7 +63,8 @@ namespace compliments_complaints_service
             services.AddTransient<IComplaintsService, ComplaintsService>(provider => new ComplaintsService(
                 provider.GetService<IVerintServiceGateway>(),
                 provider.GetService<IOptions<ComplaintsListConfiguration>>(),
-                provider.GetService<IMailingServiceGateway>()));
+                provider.GetService<IMailingServiceGateway>(),
+                provider.GetService<ILogger<ComplaintsService>>()));
             services.AddTransient<IFeedbackService, FeedbackService>(provider => new FeedbackService(
                 provider.GetService<IVerintServiceGateway>(),
                 provider.GetService<IOptions<FeedbackListConfiguration>>()));
