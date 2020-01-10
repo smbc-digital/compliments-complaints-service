@@ -5,6 +5,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using compliments_complaints_service.Config;
+using compliments_complaints_service.Controllers.Models;
+using compliments_complaints_service.Mappers;
+using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
@@ -42,7 +45,7 @@ namespace compliments_complaints_service.Services
                   : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
             var crmCase = new Case
-            {
+            {                          
                 EventCode = (int) eventCode,
                 EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
                 Description = model.ComplainAboutDetails,
@@ -97,6 +100,72 @@ namespace compliments_complaints_service.Services
             }
         }
 
+        public async Task<string> CreateComplaintCaseFormBuilder(PostData formData)
+        {
+            var model = ComplaintModelMapper.MapComplaint(formData.Answers);
+
+            var events = _complaintsConfig.Value.ComplaintsConfigurations;
+
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
+                : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
+
+            var crmCase = new Case
+            {
+                EventCode = (int)eventCode,
+                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
+                Description = model.ComplainAboutDetails,
+                Customer = new Customer
+                {
+                    Forename = model.FirstName,
+                    Surname = model.LastName,
+                    Email = model.EmailAddress,
+                    Telephone = model.PhoneNumber,
+                    Address = new Address()
+                }
+            };
+
+            if (string.IsNullOrEmpty(model.AddressRef))
+            {
+                crmCase.Customer.Address.AddressLine1 = model.AddressLine1;
+                crmCase.Customer.Address.AddressLine2 = model.AddressLine2;
+                crmCase.Customer.Address.City = model.Town;
+                crmCase.Customer.Address.Postcode = model.Postcode;
+            }
+            else
+            {
+                var splitAddress = model.SelectedAddress.Split(",");
+                crmCase.Customer.Address.AddressLine1 = splitAddress[0];
+                crmCase.Customer.Address.AddressLine2 = splitAddress[1];
+
+                if (splitAddress.Length == 5)
+                {
+                    crmCase.Customer.Address.AddressLine3 = splitAddress[2];
+                    crmCase.Customer.Address.City = splitAddress[3];
+                    crmCase.Customer.Address.Postcode = splitAddress[4];
+                }
+                else
+                {
+                    crmCase.Customer.Address.City = splitAddress[2];
+                    crmCase.Customer.Address.Postcode = splitAddress[3];
+                }
+
+                crmCase.Customer.Address.UPRN = model.AddressRef;
+            }
+
+            try
+            {
+                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
+                var response = await _verintServiceGateway.CreateCase(crmCase);
+                SendUserSuccessEmailFormBuilder(model, response.ResponseContent);
+                return response.ResponseContent;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service", ex);
+            }
+        }
+
         private void SendUserSuccessEmail(ComplaintDetails model, string caseResponse)
         {
             var submissionDetails = new ComplaintsMailModel()
@@ -106,6 +175,25 @@ namespace compliments_complaints_service.Services
                 FirstName = model.ContactDetails.FirstName,
                 LastName = model.ContactDetails.LastName,
                 RecipientAddress = model.ContactDetails.EmailAddress
+            };
+
+            _mailingServiceGateway.Send(new Mail
+            {
+                Payload = JsonConvert.SerializeObject(submissionDetails),
+                Template = EMailTemplate.ComplaintsSuccess
+            });
+
+        }
+
+        private void SendUserSuccessEmailFormBuilder(ComplaintDetailsFormBuilder model, string caseResponse)
+        {
+            var submissionDetails = new ComplaintsMailModel()
+            {
+                Subject = "We've received your formal complaint",
+                Reference = caseResponse,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                RecipientAddress = model.EmailAddress
             };
 
             _mailingServiceGateway.Send(new Mail

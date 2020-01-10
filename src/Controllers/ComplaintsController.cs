@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using compliments_complaints_service.Controllers.Models;
 using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -36,6 +37,23 @@ namespace compliments_complaints_service.Controllers
             catch (Exception ex)
             {
                 _logger.LogWarning($"CaseController CreateCase an exception has occured while calling compliments complaints createCase, ex: {ex}");
+                return StatusCode(500, ex);
+            }
+        }
+
+        [Route("submit-complaint-form-builder")]
+        [HttpPost]
+        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody] PostData formAnswers)
+        {
+            try
+            {
+                var result = await _caseService.CreateComplaintCaseFormBuilder(formAnswers);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning($"CaseController CreateCaseUsingFormBuilder an exception has occured while calling compliments complaints createCase, ex: {ex}");
                 return StatusCode(500, ex);
             }
         }
