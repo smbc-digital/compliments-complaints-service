@@ -9,11 +9,11 @@ using compliments_complaints_service.Controllers.Models;
 using compliments_complaints_service.Mappers;
 using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
 using StockportGovUK.NetStandard.Models.Enums;
 using StockportGovUK.NetStandard.Models.Models.Mail;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace compliments_complaints_service.Services
 {
@@ -89,7 +89,7 @@ namespace compliments_complaints_service.Services
 
             try
             {
-                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
+                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonSerializer.Serialize(crmCase)}");
                 var response = await _verintServiceGateway.CreateCase(crmCase);
                 SendUserSuccessEmail(model, response.ResponseContent);
                 return response.ResponseContent;
@@ -155,7 +155,7 @@ namespace compliments_complaints_service.Services
 
             try
             {
-                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
+                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonSerializer.Serialize(crmCase)}");
                 var response = await _verintServiceGateway.CreateCase(crmCase);
                 SendUserSuccessEmailFormBuilder(model, response.ResponseContent);
                 return response.ResponseContent;
@@ -179,7 +179,7 @@ namespace compliments_complaints_service.Services
 
             _mailingServiceGateway.Send(new Mail
             {
-                Payload = JsonConvert.SerializeObject(submissionDetails),
+                Payload = JsonSerializer.Serialize(submissionDetails),
                 Template = EMailTemplate.ComplaintsSuccess
             });
 
@@ -198,7 +198,7 @@ namespace compliments_complaints_service.Services
 
             _mailingServiceGateway.Send(new Mail
             {
-                Payload = JsonConvert.SerializeObject(submissionDetails),
+                Payload = JsonSerializer.Serialize(submissionDetails),
                 Template = EMailTemplate.ComplaintsSuccess
             });
 
