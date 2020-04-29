@@ -5,7 +5,7 @@ using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 
 namespace compliments_complaints_service.Controllers
 {

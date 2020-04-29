@@ -3,7 +3,7 @@ using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 using System;
 using Xunit;
 
