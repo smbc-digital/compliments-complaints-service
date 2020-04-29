@@ -1,6 +1,6 @@
-﻿using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using compliments_complaints_service.Controllers.Models;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 
 namespace compliments_complaints_service.Services
 {

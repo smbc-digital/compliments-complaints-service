@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using compliments_complaints_service.Controllers;
 using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
-using StockportGovUK.AspNetCore.Gateways.Response;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 using Xunit;
 
 namespace compliments_complaints_service_tests.Controller
@@ -17,11 +12,10 @@ namespace compliments_complaints_service_tests.Controller
     {
         private readonly ComplimentsController _controller;
         private readonly Mock<IComplimentsService> _mockService = new Mock<IComplimentsService>();
-        private readonly Mock<ILogger<ComplimentsController>> _logger = new Mock<ILogger<ComplimentsController>>();
 
         public ComplimentsControllerTests()
         {
-            _controller = new ComplimentsController(_mockService.Object, _logger.Object);
+            _controller = new ComplimentsController(_mockService.Object);
         }
 
         [Fact]
@@ -52,22 +46,6 @@ namespace compliments_complaints_service_tests.Controller
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
-        public async void CreateCase_ShouldReturn500()
-        {
-            // Arrange
-            _mockService
-                .Setup(_ => _.CreateComplimentCase(It.IsAny<ComplimentDetails>()))
-                .ThrowsAsync(new Exception());
-
-            // Act
-            var result = await _controller.CreateCase(It.IsAny<ComplimentDetails>());
-
-            // Assert
-            var assertType = Assert.IsType<ObjectResult>(result);
-            Assert.Equal(500, assertType.StatusCode);
         }
     }
 }

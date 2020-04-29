@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using compliments_complaints_service.Config;
+using compliments_complaints_service.Utils.HealthChecks;
+using compliments_complaints_service.Utils.ServiceCollectionExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StockportGovUK.AspNetCore.Middleware;
+using Microsoft.Extensions.Hosting;
 using StockportGovUK.AspNetCore.Availability;
 using StockportGovUK.AspNetCore.Availability.Middleware;
-using StockportGovUK.AspNetCore.Gateways;
-using compliments_complaints_service.Config;
-using Microsoft.Extensions.Hosting;
-using compliments_complaints_service.Utils.HealthChecks;
-using compliments_complaints_service.Utils.ServiceCollectionExtensions;
+using StockportGovUK.AspNetCore.Middleware;
+using StockportGovUK.NetStandard.Gateways;
 
 namespace compliments_complaints_service
 {
@@ -32,7 +32,7 @@ namespace compliments_complaints_service
             services.AddAvailability();
             services.AddSwagger();
             services.AddHealthChecks()
-                .AddCheck<TestHealthCheck>("TestHealthCheck");
+                    .AddCheck<TestHealthCheck>("TestHealthCheck");
 
             services.Configure<FeedbackListConfiguration>(Configuration.GetSection("FeedbackConfiguration"));
             services.Configure<ComplimentsListConfiguration>(Configuration.GetSection("ComplimentsConfiguration"));
@@ -53,11 +53,12 @@ namespace compliments_complaints_service
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseMiddleware<Availability>();
-            app.UseMiddleware<ExceptionHandling>();
+            app.UseMiddleware<ApiExceptionHandling>();
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseHealthChecks("/healthcheck", HealthCheckConfig.Options);
             
@@ -65,7 +66,7 @@ namespace compliments_complaints_service
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint(
-                    $"{(env.IsEnvironment("local") ? string.Empty : "/complimentscomplaintsservice")}/swagger/v1/swagger.json", "Compliments Complaints service API");
+                    $"{(env.IsEnvironment("local") ? string.Empty : "/complimentscomplaintsservice")}/swagger/v1/swagger.json", "Compliments complaints service API");
             });
         }
     }

@@ -1,19 +1,19 @@
-﻿using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
-using StockportGovUK.NetStandard.Models.Models.Verint;
-using System;
+﻿using System;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Controllers.Models;
 using compliments_complaints_service.Mappers;
 using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
-using StockportGovUK.NetStandard.Models.Enums;
-using StockportGovUK.NetStandard.Models.Models.Mail;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
+using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
+using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Models.Enums;
+using StockportGovUK.NetStandard.Models.Mail;
+using StockportGovUK.NetStandard.Models.Verint;
 
 namespace compliments_complaints_service.Services
 {
@@ -46,7 +46,7 @@ namespace compliments_complaints_service.Services
 
             var crmCase = new Case
             {                          
-                EventCode = (int) eventCode,
+                EventCode = (int)eventCode,
                 EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
                 Description = model.ComplainAboutDetails,
                 Customer = new Customer
