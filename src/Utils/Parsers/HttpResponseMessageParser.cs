@@ -1,7 +1,7 @@
+using StockportGovUK.NetStandard.Gateways.Response;
 using System;
 using System.Net.Http;
 using System.Text.Json;
-using StockportGovUK.AspNetCore.Gateways.Response;
 
 namespace compliments_complaints_service.Utils.Parsers
 {

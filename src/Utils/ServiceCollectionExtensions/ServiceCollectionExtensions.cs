@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
-using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
+using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
+using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
 
 namespace compliments_complaints_service.Utils.ServiceCollectionExtensions
 {

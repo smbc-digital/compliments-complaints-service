@@ -7,8 +7,7 @@ using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using StockportGovUK.AspNetCore.Gateways.Response;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 using Xunit;
 
 namespace compliments_complaints_service_tests.Controller

@@ -1,6 +1,4 @@
-﻿using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
-using StockportGovUK.NetStandard.Models.Models.Verint;
+﻿using StockportGovUK.NetStandard.Models.Verint;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,11 +7,13 @@ using compliments_complaints_service.Controllers.Models;
 using compliments_complaints_service.Mappers;
 using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using StockportGovUK.AspNetCore.Gateways.MailingServiceGateway;
 using StockportGovUK.NetStandard.Models.Enums;
-using StockportGovUK.NetStandard.Models.Models.Mail;
+using StockportGovUK.NetStandard.Models.Mail;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
+using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 
 namespace compliments_complaints_service.Services
 {

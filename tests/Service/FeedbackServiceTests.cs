@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Net;
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
-using compliments_complaints_service.Utils;
 using Microsoft.Extensions.Options;
 using Moq;
-using StockportGovUK.AspNetCore.Gateways.Response;
-using StockportGovUK.AspNetCore.Gateways.VerintServiceGateway;
-using StockportGovUK.NetStandard.Models.Models.ComplimentsComplaints;
-using StockportGovUK.NetStandard.Models.Models.Verint;
+using StockportGovUK.NetStandard.Gateways.Response;
+using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
+using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Models.Verint;
 using Xunit;
 
 namespace compliments_complaints_service_tests.Service

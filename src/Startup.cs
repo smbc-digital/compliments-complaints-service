@@ -6,11 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using StockportGovUK.AspNetCore.Middleware;
 using StockportGovUK.AspNetCore.Availability;
 using StockportGovUK.AspNetCore.Availability.Middleware;
-using StockportGovUK.AspNetCore.Gateways;
 using compliments_complaints_service.Config;
 using Microsoft.Extensions.Hosting;
 using compliments_complaints_service.Utils.HealthChecks;
 using compliments_complaints_service.Utils.ServiceCollectionExtensions;
+using StockportGovUK.NetStandard.Gateways;
 
 namespace compliments_complaints_service
 {
