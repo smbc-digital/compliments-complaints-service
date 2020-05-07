@@ -28,6 +28,7 @@ namespace compliments_complaints_service
         {
             services.AddControllers()
                     .AddNewtonsoftJson();
+                        
             services.AddHttpClient();
             services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
             services.AddAvailability();
