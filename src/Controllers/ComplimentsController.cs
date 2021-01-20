@@ -31,9 +31,9 @@ namespace compliments_complaints_service.Controllers
 
         [Route("submit-compliment-form-builder")]
         [HttpPost]
-        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody]PostData data)
+        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody]ComplimentDetails model)
         {
-            var result = await _caseService.CreateComplimentCaseFormBuilder(data);
+            var result = await _caseService.CreateComplimentCase(model);
 
             return Ok(result);
         }
