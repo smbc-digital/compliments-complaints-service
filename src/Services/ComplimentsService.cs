@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Controllers.Models;
 using compliments_complaints_service.Mappers;
+using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
 using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
 using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
@@ -51,10 +52,9 @@ namespace compliments_complaints_service.Services
             }
         }
 
-        public async Task<string> CreateComplimentCaseFormBuilder(PostData data)
+        public async Task<string> CreateComplimentCaseFormBuilder(FeedbackAndComplimentDetailsFormBuilder model)
         {
-            var model = FeedbackAndComplimentModelMapper.MapAnswers(data.Answers);
-
+            model.CouncilDepartmentSub = CouncilDepartmentSubMapper.SetComplaintCouncilDepartmentSub(model.RevsBensDept, model.EnvironmentDept, model.PlanningDept);
             var events = _complimentsConfig.Value.ComplimentsConfigurations;
 
             var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
