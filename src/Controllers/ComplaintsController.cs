@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using compliments_complaints_service.Controllers.Models;
+using compliments_complaints_service.Models;
 using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;
@@ -31,9 +31,9 @@ namespace compliments_complaints_service.Controllers
 
         [Route("submit-complaint-form-builder")]
         [HttpPost]
-        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody] PostData formAnswers)
+        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody] ComplaintDetailsFormBuilder model)
         {
-            var result = await _caseService.CreateComplaintCaseFormBuilder(formAnswers);
+            var result = await _caseService.CreateComplaintCaseFormBuilder(model);
 
             return Ok(result);
         }

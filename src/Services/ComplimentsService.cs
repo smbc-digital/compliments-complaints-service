@@ -32,13 +32,12 @@ namespace compliments_complaints_service.Services
                   : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
             var name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
-            var description = string.Format("Name: {0} {1} {2} Compliment: {3}", name, Environment.NewLine, Environment.NewLine, model.Compliment);
 
             var crmCase = new Case
             {
                 EventCode = (int) eventCode,
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentOther) ? "Compliment" : $"Compliment - {model.CouncilDepartmentOther}",
-                Description = description
+                Description = $"Name: {name} \n\nCompliment: {model.Compliment}"
             };
 
             try

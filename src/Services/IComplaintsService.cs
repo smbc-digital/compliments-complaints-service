@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using compliments_complaints_service.Controllers.Models;
+using compliments_complaints_service.Models;
 using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 
 namespace compliments_complaints_service.Services
@@ -8,6 +8,6 @@ namespace compliments_complaints_service.Services
     {
         Task<string> CreateComplaintCase(ComplaintDetails model);
 
-        Task<string> CreateComplaintCaseFormBuilder(PostData formData);
+        Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model);
     }
 }

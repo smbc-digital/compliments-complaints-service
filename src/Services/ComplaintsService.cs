@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using compliments_complaints_service.Config;
-using compliments_complaints_service.Controllers.Models;
 using compliments_complaints_service.Mappers;
 using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
@@ -100,10 +99,10 @@ namespace compliments_complaints_service.Services
             }
         }
 
-        public async Task<string> CreateComplaintCaseFormBuilder(PostData formData)
+        public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
-            var model = ComplaintModelMapper.MapComplaint(formData.Answers);
 
+            model.CouncilDepartmentSub = CouncilDepartmentSubMapper.SetComplaintCouncilDepartmentSub(model.RevsBensDept, model.EnvironmentDept, model.PlanningDept);
             var events = _complaintsConfig.Value.ComplaintsConfigurations;
 
             var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)

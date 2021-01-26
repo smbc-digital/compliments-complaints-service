@@ -32,13 +32,12 @@ namespace compliments_complaints_service.Services
 
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
             string email = string.IsNullOrEmpty(model.Email) ? "Not provided" : model.Email;
-            string description = string.Format("Name: {0} {1} Email: {2} {3} {4} Feedback: {5}", name, Environment.NewLine, email, Environment.NewLine, Environment.NewLine, model.Feedback);
 
             var crmCase = new Case
             {
                 EventCode = (int) eventCode,
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentOther) ? "Feedback" : $"Feedback - {model.CouncilDepartmentOther}",
-                Description = description
+                Description = $"Name: {name} \nEmail: {email}\n\nFeedback: {model.Feedback}"
             };
 
             try
