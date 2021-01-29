@@ -7,6 +7,7 @@ namespace compliments_complaints_service.Models
     {
         public int? EventCode { get; set; }
 
+        [Required]
         public string CouncilDepartment { get; set; }
 
         public string CouncilDepartmentSub { get; set; }
@@ -17,18 +18,23 @@ namespace compliments_complaints_service.Models
 
         public string PlanningDept { get; set; }
 
+        [Required]
         public string ComplaintAbout { get; set; }
 
+        [Required]
         public string ComplaintAboutDetails { get; set; }
 
+        [Required]
         public string FirstName { get; set; }
 
+        [Required]
         public string LastName { get; set; }
 
         public string PhoneNumber { get; set; }
 
         public string EmailAddress { get; set; }
 
+        [Required]
         public Address CustomersAddress { get; set; }
     }
 }

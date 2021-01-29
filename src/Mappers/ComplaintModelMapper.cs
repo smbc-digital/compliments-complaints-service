@@ -36,7 +36,6 @@ namespace compliments_complaints_service.Mappers
                         AddressLine3 = model.CustomersAddress.Town,
                         Postcode = model.CustomersAddress.Postcode,
                         Reference = model.CustomersAddress.PlaceRef,
-                        UPRN = model.CustomersAddress.PlaceRef,
                         Description = model.CustomersAddress.ToString()
                     }
                 }
