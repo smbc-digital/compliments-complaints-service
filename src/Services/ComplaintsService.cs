@@ -102,56 +102,7 @@ namespace compliments_complaints_service.Services
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
 
-            model.CouncilDepartmentSub = CouncilDepartmentSubMapper.SetComplaintCouncilDepartmentSub(model.RevsBensDept, model.EnvironmentDept, model.PlanningDept);
-            var events = _complaintsConfig.Value.ComplaintsConfigurations;
-
-            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
-                : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
-
-            var crmCase = new Case
-            {
-                EventCode = (int)eventCode,
-                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
-                Description = model.ComplainAboutDetails,
-                Customer = new Customer
-                {
-                    Forename = model.FirstName,
-                    Surname = model.LastName,
-                    Email = model.EmailAddress,
-                    Telephone = model.PhoneNumber,
-                    Address = new Address()
-                }
-            };
-
-            if (string.IsNullOrEmpty(model.AddressRef))
-            {
-                crmCase.Customer.Address.AddressLine1 = model.AddressLine1;
-                crmCase.Customer.Address.AddressLine2 = model.AddressLine2;
-                crmCase.Customer.Address.City = model.Town;
-                crmCase.Customer.Address.Postcode = model.Postcode;
-            }
-            else
-            {
-                var splitAddress = model.SelectedAddress.Split(",");
-                crmCase.Customer.Address.AddressLine1 = splitAddress[0];
-                crmCase.Customer.Address.AddressLine2 = splitAddress[1];
-
-                if (splitAddress.Length == 5)
-                {
-                    crmCase.Customer.Address.AddressLine3 = splitAddress[2];
-                    crmCase.Customer.Address.City = splitAddress[3];
-                    crmCase.Customer.Address.Postcode = splitAddress[4];
-                }
-                else
-                {
-                    crmCase.Customer.Address.City = splitAddress[2];
-                    crmCase.Customer.Address.Postcode = splitAddress[3];
-                }
-
-                crmCase.Customer.Address.UPRN = model.AddressRef;
-            }
-
+            var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
             {
                 _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");

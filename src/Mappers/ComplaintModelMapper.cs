@@ -1,59 +1,48 @@
-﻿using System.Collections.Generic;
-using compliments_complaints_service.Controllers.Models;
-using compliments_complaints_service.Models;
+﻿using compliments_complaints_service.Models;
+using compliments_complaints_service.Config;
+using Microsoft.Extensions.Options;
+using System.Linq;
+using StockportGovUK.NetStandard.Models.Verint;
 
 namespace compliments_complaints_service.Mappers
 {
     public static class ComplaintModelMapper
     {
-        public static ComplaintDetailsFormBuilder MapComplaint(List<Answer> data)
+        public static Case ToCrmCase(ComplaintDetailsFormBuilder model, IOptions<ComplaintsListConfiguration> complaintsConfig)
         {
-            var model = new ComplaintDetailsFormBuilder();
-
-            foreach (var answer in data)
-            {
-                var propertyName = $"{answer.QuestionId[0].ToString().ToUpper()}{answer.QuestionId.Substring(1)}";
-
-                var property = model?
-                    .GetType()?
-                    .GetProperty(propertyName);
-
-                property?.SetValue(model, answer.Response, null);
-
-                if (answer.QuestionId.Equals("customers-address-address"))
-                {
-                    model.AddressRef = answer.Response;
-                }
-
-                if (answer.QuestionId.Equals("customers-address-address-description"))
-                {
-                    model.SelectedAddress = answer.Response;
-                }
-
-                if (answer.QuestionId.Equals("customers-address-AddressManualAddressLine1"))
-                {
-                    model.AddressLine1 = answer.Response;
-                }
-
-                if (answer.QuestionId.Equals("customers-address-AddressManualAddressLine2"))
-                {
-                    model.AddressLine2 = answer.Response ?? string.Empty;
-                }
-
-                if (answer.QuestionId.Equals("customers-address-AddressManualAddressTown"))
-                {
-                    model.Town = answer.Response;
-                }
-
-                if (answer.QuestionId.Equals("customers-address-AddressManualAddressPostcode"))
-                {
-                    model.Postcode = answer.Response;
-                }
-            }
 
             model.CouncilDepartmentSub = CouncilDepartmentSubMapper.SetComplaintCouncilDepartmentSub(model.RevsBensDept, model.EnvironmentDept, model.PlanningDept);
+            var events = complaintsConfig.Value.ComplaintsConfigurations;
 
-            return model;
+            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
+                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
+                : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
+
+            var crmCase = new Case
+            {
+                EventCode = (int)eventCode,
+                EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentSub) ? $"Complaint - {model.CouncilDepartment}" : $"Complaint - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
+                Description = $"{model.ComplainAbout}\n\n{model.ComplainAboutDetails}",
+                Customer = new Customer
+                {
+                    Forename = model.FirstName,
+                    Surname = model.LastName,
+                    Email = model.EmailAddress,
+                    Telephone = model.PhoneNumber,
+                    Address = new Address
+                    {
+                        AddressLine1 = model.CustomersAddress.AddressLine1,
+                        AddressLine2 = model.CustomersAddress.AddressLine2,
+                        AddressLine3 = model.CustomersAddress.Town,
+                        Postcode = model.CustomersAddress.Postcode,
+                        Reference = model.CustomersAddress.PlaceRef,
+                        UPRN = model.CustomersAddress.PlaceRef,
+                        Description = model.CustomersAddress.ToString()
+                    }
+                }
+            };
+
+            return crmCase;
         }
     }
 }
