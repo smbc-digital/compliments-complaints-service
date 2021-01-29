@@ -22,7 +22,7 @@ namespace compliments_complaints_service.Mappers
             {
                 EventCode = (int)eventCode,
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentSub) ? $"Complaint - {model.CouncilDepartment}" : $"Complaint - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
-                Description = $"{model.ComplainAbout}\n\n{model.ComplainAboutDetails}",
+                Description = $"{model.ComplaintAbout}\n\n{model.ComplaintAboutDetails}",
                 Customer = new Customer
                 {
                     Forename = model.FirstName,
