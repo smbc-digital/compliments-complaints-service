@@ -34,7 +34,6 @@ namespace compliments_complaints_service.Models
 
         public string EmailAddress { get; set; }
 
-        [Required]
         public Address CustomersAddress { get; set; }
     }
 }
