@@ -22,7 +22,7 @@ namespace compliments_complaints_service.Mappers
             {
                 EventCode = (int)eventCode,
                 EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentSub) ? $"Complaint - {model.CouncilDepartment}" : $"Complaint - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
-                Description = $"{model.ComplaintAbout}\n\n{model.ComplaintAboutDetails}",
+                Description = GenerateDescription(model.ComplaintAbout, model.ComplaintAboutDetails),
                 Customer = new Customer
                 {
                     Forename = model.FirstName,
@@ -42,6 +42,12 @@ namespace compliments_complaints_service.Mappers
             };
 
             return crmCase;
+        }
+
+
+        public static string GenerateDescription(string complaintAbout, string complaintAboutDetails)
+        {
+            return $"{complaintAbout}\n\n{complaintAboutDetails}";
         }
     }
 }
