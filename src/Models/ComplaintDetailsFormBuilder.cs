@@ -17,9 +17,7 @@ namespace compliments_complaints_service.Models
 
         public string PlanningDept { get; set; }
         
-        [Required]
         public string ComplaintAbout { get; set; }
-
         
         public string ComplaintAboutDetails { get; set; }
 
