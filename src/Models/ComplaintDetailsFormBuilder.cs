@@ -15,7 +15,7 @@ namespace compliments_complaints_service.Models
 
         public string EnvironmentDept { get; set; }
 
-        public string PlanningDept { get; set; 
+        public string PlanningDept { get; set; }
         
         public string ComplaintAbout { get; set; }
 
