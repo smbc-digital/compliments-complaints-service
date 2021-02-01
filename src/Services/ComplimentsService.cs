@@ -65,7 +65,7 @@ namespace compliments_complaints_service.Services
             var crmCase = new Case
             {
                 EventCode = (int)eventCode,
-                EventTitle = string.IsNullOrEmpty(model.OtherService) ? "Compliment" : $"Compliment - {model.OtherService}",
+                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Feedback {model.CouncilDepartment}" : $"Feedback - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
                 Description = $"Name: {name} \n\nCompliment: {model.Description}"
             };
 

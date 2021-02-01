@@ -101,9 +101,9 @@ namespace compliments_complaints_service.Services
 
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
-            _logger.LogError($"{model.ComplaintAboutDetails}");
+            _logger.LogError($"{model.ComplaintAboutDetails} {model.ComplaintAbout}");
 
-             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
+            var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
             {
                 _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
