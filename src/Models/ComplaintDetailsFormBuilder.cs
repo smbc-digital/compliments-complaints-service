@@ -19,6 +19,7 @@ namespace compliments_complaints_service.Models
         
         public string ComplaintAbout { get; set; }
 
+        [Required]
         public string ComplaintAboutDetails { get; set; }
 
         public string FirstName { get; set; }
