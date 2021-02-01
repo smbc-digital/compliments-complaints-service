@@ -24,10 +24,8 @@ namespace compliments_complaints_service.Models
         [Required]
         public string ComplaintAboutDetails { get; set; }
 
-        [Required]
         public string FirstName { get; set; }
 
-        [Required]
         public string LastName { get; set; }
 
         public string PhoneNumber { get; set; }
