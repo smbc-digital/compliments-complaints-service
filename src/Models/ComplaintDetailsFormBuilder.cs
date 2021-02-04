@@ -5,7 +5,6 @@ namespace compliments_complaints_service.Models
 {
     public class ComplaintDetailsFormBuilder
     {
-        public int? EventCode { get; set; }
 
         public string ComplaintStart { get; set; }
         
