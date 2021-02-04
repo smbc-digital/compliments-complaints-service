@@ -102,6 +102,12 @@ namespace compliments_complaints_service.Services
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
 
+            _logger.LogError(model.CustomersAddress.AddressLine1);
+            _logger.LogError(model.CustomersAddress.AddressLine2);
+            _logger.LogError(model.CustomersAddress.Town;
+            _logger.LogError(model.CustomersAddress.Postcode);
+
+
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
             {
