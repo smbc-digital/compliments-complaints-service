@@ -114,6 +114,15 @@ namespace compliments_complaints_service.Services
                 _logger.LogError("Customersaddress is null");
             }
 
+            _logger.LogError(model.EmailAddress);
+            _logger.LogError(model.PhoneNumber);
+            _logger.LogError(model.ComplaintAbout);
+            _logger.LogError(model.ComplaintAboutDetails);
+            _logger.LogError(model.CouncilDepartment);
+            _logger.LogError(model.CouncilDepartmentSub);
+            _logger.LogError(model.FirstName);
+            _logger.LogWarning(model.LastName);
+
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
             {
