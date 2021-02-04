@@ -104,7 +104,7 @@ namespace compliments_complaints_service.Services
 
             _logger.LogError(model.CustomersAddress.AddressLine1);
             _logger.LogError(model.CustomersAddress.AddressLine2);
-            _logger.LogError(model.CustomersAddress.Town;
+            _logger.LogError(model.CustomersAddress.Town);
             _logger.LogError(model.CustomersAddress.Postcode);
 
 
