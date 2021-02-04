@@ -18,27 +18,32 @@ namespace compliments_complaints_service.Mappers
                 ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
                 : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
+            var customer = new Customer
+            {
+                Forename = model.FirstName,
+                Surname = model.LastName,
+                Email = model.EmailAddress,
+                Telephone = model.PhoneNumber,
+                Address = new Address
+                {
+                    AddressLine1 = model.CustomersAddress.AddressLine1,
+                    AddressLine2 = model.CustomersAddress.AddressLine2,
+                    AddressLine3 = model.CustomersAddress.Town,
+                    Postcode = model.CustomersAddress.Postcode,
+                    Reference = model.CustomersAddress.PlaceRef,
+                    Description = model.CustomersAddress.ToString()
+                }
+            };
+
+            var eventTitle = string.IsNullOrEmpty(model.CouncilDepartmentSub) ? $"Complaint - {model.CouncilDepartment}" : $"Complaint - {model.CouncilDepartment} - {model.CouncilDepartmentSub}";
+
+
             var crmCase = new Case
             {
                 EventCode = (int)eventCode,
-                EventTitle = string.IsNullOrEmpty(model.CouncilDepartmentSub) ? $"Complaint - {model.CouncilDepartment}" : $"Complaint - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
+                EventTitle = eventTitle,
                 Description = GenerateDescription(model.ComplaintAbout, model.ComplaintAboutDetails),
-                Customer = new Customer
-                {
-                    Forename = model.FirstName,
-                    Surname = model.LastName,
-                    Email = model.EmailAddress,
-                    Telephone = model.PhoneNumber,
-                    Address = new Address
-                    {
-                        AddressLine1 = model.CustomersAddress.AddressLine1,
-                        AddressLine2 = model.CustomersAddress.AddressLine2,
-                        AddressLine3 = model.CustomersAddress.Town,
-                        Postcode = model.CustomersAddress.Postcode,
-                        Reference = model.CustomersAddress.PlaceRef,
-                        Description = model.CustomersAddress.ToString()
-                    }
-                }
+                Customer =  customer
             };
 
             return crmCase;
