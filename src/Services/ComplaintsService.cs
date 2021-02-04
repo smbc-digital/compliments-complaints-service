@@ -104,24 +104,24 @@ namespace compliments_complaints_service.Services
 
             if (model.CustomersAddress != null)
             {
-                _logger.LogError(model.CustomersAddress.AddressLine1);
-                _logger.LogError(model.CustomersAddress.AddressLine2);
-                _logger.LogError(model.CustomersAddress.Town);
-                _logger.LogError(model.CustomersAddress.Postcode);
+                _logger.LogWarning(model.CustomersAddress.AddressLine1);
+                _logger.LogWarning(model.CustomersAddress.AddressLine2);
+                _logger.LogWarning(model.CustomersAddress.Town);
+                _logger.LogWarning(model.CustomersAddress.Postcode);
             }
             else
             {
-                _logger.LogError("Customersaddress is null");
+                _logger.LogWarning("Customersaddress is null");
             }
 
-            _logger.LogError(model.ComplaintStart);
-            _logger.LogError(model.EmailAddress);
-            _logger.LogError(model.PhoneNumber);
-            _logger.LogError(model.ComplaintAbout);
-            _logger.LogError(model.ComplaintAboutDetails);
-            _logger.LogError(model.CouncilDepartment);
-            _logger.LogError(model.CouncilDepartmentSub);
-            _logger.LogError(model.FirstName);
+            _logger.LogWarning(model.ComplaintStart);
+            _logger.LogWarning(model.EmailAddress);
+            _logger.LogWarning(model.PhoneNumber);
+            _logger.LogWarning(model.ComplaintAbout);
+            _logger.LogWarning(model.ComplaintAboutDetails);
+            _logger.LogWarning(model.CouncilDepartment);
+            _logger.LogWarning(model.CouncilDepartmentSub);
+            _logger.LogWarning(model.FirstName);
             _logger.LogWarning(model.LastName);
 
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
