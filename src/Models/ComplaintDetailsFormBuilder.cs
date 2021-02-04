@@ -7,6 +7,8 @@ namespace compliments_complaints_service.Models
     {
         public int? EventCode { get; set; }
 
+        public string ComplaintStart { get; set; }
+        
         public string CouncilDepartment { get; set; }
 
         public string CouncilDepartmentSub { get; set; }

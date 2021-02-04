@@ -101,7 +101,6 @@ namespace compliments_complaints_service.Services
 
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
-            _logger.LogError($"{model.ComplaintAboutDetails} {model.ComplaintAbout}");
 
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try

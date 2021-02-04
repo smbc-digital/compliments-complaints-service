@@ -33,6 +33,8 @@ namespace compliments_complaints_service.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody] ComplaintDetailsFormBuilder model)
         {
+            
+            
             var result = await _caseService.CreateComplaintCaseFormBuilder(model);
 
             return Ok(result);
