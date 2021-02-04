@@ -102,11 +102,17 @@ namespace compliments_complaints_service.Services
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
 
-            _logger.LogError(model.CustomersAddress.AddressLine1);
-            _logger.LogError(model.CustomersAddress.AddressLine2);
-            _logger.LogError(model.CustomersAddress.Town);
-            _logger.LogError(model.CustomersAddress.Postcode);
-
+            if (model.CustomersAddress != null)
+            {
+                _logger.LogError(model.CustomersAddress.AddressLine1);
+                _logger.LogError(model.CustomersAddress.AddressLine2);
+                _logger.LogError(model.CustomersAddress.Town);
+                _logger.LogError(model.CustomersAddress.Postcode);
+            }
+            else
+            {
+                _logger.LogError("Customersaddress is null");
+            }
 
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
