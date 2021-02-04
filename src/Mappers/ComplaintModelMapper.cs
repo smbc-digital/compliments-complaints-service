@@ -17,16 +17,7 @@ namespace compliments_complaints_service.Mappers
             var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
                 ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
                 : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
-
-
-            var address = new Address();
-            address.AddressLine1 = model.CustomersAddress.AddressLine1;
-            address.AddressLine2 = model.CustomersAddress.AddressLine2;
-            address.AddressLine3 = model.CustomersAddress.Town;
-            address.Postcode = model.CustomersAddress.Postcode;
-            address.Reference = model.CustomersAddress.PlaceRef;
-            address.Description = model.CustomersAddress.ToString();
-
+            
             var eventTitle = string.IsNullOrEmpty(model.CouncilDepartmentSub) ? $"Complaint - {model.CouncilDepartment}" : $"Complaint - {model.CouncilDepartment} - {model.CouncilDepartmentSub}";
 
             var crmCase = new Case
@@ -39,7 +30,16 @@ namespace compliments_complaints_service.Mappers
                     Surname = model.LastName,
                     Email = model.EmailAddress,
                     Telephone = model.PhoneNumber,
-                    Address = address}
+                    Address = new Address
+                    {
+                        AddressLine1 = model.CustomersAddress.AddressLine1,
+                        AddressLine2 = model.CustomersAddress.AddressLine2,
+                        AddressLine3 = model.CustomersAddress.Town,
+                        Postcode = model.CustomersAddress.Postcode,
+                        Reference = model.CustomersAddress.PlaceRef,
+                        Description = model.CustomersAddress.ToString()
+                    }
+                }
         };
 
             return crmCase;
