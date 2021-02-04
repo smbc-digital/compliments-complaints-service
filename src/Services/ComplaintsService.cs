@@ -114,6 +114,7 @@ namespace compliments_complaints_service.Services
                 _logger.LogError("Customersaddress is null");
             }
 
+            _logger.LogError(model.ComplaintStart);
             _logger.LogError(model.EmailAddress);
             _logger.LogError(model.PhoneNumber);
             _logger.LogError(model.ComplaintAbout);
