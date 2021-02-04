@@ -102,28 +102,7 @@ namespace compliments_complaints_service.Services
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
 
-            if (model.CustomersAddress != null)
-            {
-                _logger.LogWarning(model.CustomersAddress.AddressLine1);
-                _logger.LogWarning(model.CustomersAddress.AddressLine2);
-                _logger.LogWarning(model.CustomersAddress.Town);
-                _logger.LogWarning(model.CustomersAddress.Postcode);
-            }
-            else
-            {
-                _logger.LogWarning("Customersaddress is null");
-            }
-
-            _logger.LogWarning($"Complaint Start: {model.ComplaintStart}");
-            _logger.LogWarning($"EmailAddress: {model.EmailAddress}");
-            _logger.LogWarning($"PhoneNumber: {model.PhoneNumber}");
-            _logger.LogWarning($"ComplaintAbout: {model.ComplaintAbout}");
-            _logger.LogWarning($"ComplaintAboutDetails: {model.ComplaintAboutDetails}");
-            _logger.LogWarning($"CouncilDepartment: {model.CouncilDepartment}");
-            _logger.LogWarning($"CouncilDepartmentSub: {model.CouncilDepartmentSub}");
-            _logger.LogWarning($"FirstName: {model.FirstName}");
-            _logger.LogWarning($"LastName: {model.LastName}");
-
+            
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
             {
