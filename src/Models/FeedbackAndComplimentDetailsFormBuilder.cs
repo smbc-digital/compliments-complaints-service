@@ -2,8 +2,6 @@
 {
     public class FeedbackAndComplimentDetailsFormBuilder
     {
-        public int? EventCode { get; set; }
-
         public string CouncilDepartment { get; set; }
 
         public string CouncilDepartmentSub { get; set; }

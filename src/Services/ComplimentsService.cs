@@ -53,21 +53,7 @@ namespace compliments_complaints_service.Services
 
         public async Task<string> CreateComplimentCaseFormBuilder(FeedbackAndComplimentDetailsFormBuilder model)
         {
-            model.CouncilDepartmentSub = CouncilDepartmentSubMapper.SetComplaintCouncilDepartmentSub(model.RevsBensDept, model.EnvironmentDept, model.PlanningDept);
-            var events = _complimentsConfig.Value.ComplimentsConfigurations;
-
-            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
-                : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
-
-            var name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
-            
-            var crmCase = new Case
-            {
-                EventCode = (int)eventCode,
-                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Feedback {model.CouncilDepartment}" : $"Feedback - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
-                Description = $"Name: {name} \n\nCompliment: {model.Description}"
-            };
+            var crmCase = FeedBackAndComplimentsodelMapper.ComplimentToCrmCase(model, _complimentsConfig);
 
             try
             {
