@@ -51,7 +51,7 @@ namespace compliments_complaints_service.Mappers
             {
                 EventCode = (int)eventCode,
                 EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Compliment {model.CouncilDepartment}" : $"Compliment - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
-                Description = $"Name: {name} \nE\n Feedback: {model.Description}"
+                Description = $"Name: {name} \n\n Feedback: {model.Description}"
             };
 
             return crmCase;
