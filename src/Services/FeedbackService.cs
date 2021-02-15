@@ -53,8 +53,6 @@ namespace compliments_complaints_service.Services
 
         public async Task<string> CreateFeedbackCaseFormBuilder(FeedbackAndComplimentDetailsFormBuilder model)
         {
-
-
             var crmCase = FeedBackAndComplimentsodelMapper.FeedbackToCrmCase(model, _feedbackConfig);
 
             try
