@@ -25,6 +25,7 @@ namespace compliments_complaints_service.Mappers
                 EventCode = (int)eventCode,
                 EventTitle = eventTitle,
                 Description = GenerateDescription(model.ComplaintAbout, model.ComplaintAboutDetails),
+                RaisedByBehaviour = RaisedByBehaviourEnum.Individual,
                 Customer = new Customer {
                     Forename = model.FirstName,
                     Surname = model.LastName,
