@@ -17,8 +17,8 @@ namespace compliments_complaints_service.Mappers
             var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
                 ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
                 : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
-            
-            var eventTitle = string.IsNullOrEmpty(model.CouncilDepartmentSub) ? $"Complaint - {model.CouncilDepartment}" : $"Complaint - {model.CouncilDepartment} - {model.CouncilDepartmentSub}";
+
+            var eventTitle = $"Complaint - {model.ComplaintAbout}";
 
             var crmCase = new Case
             {
@@ -48,7 +48,7 @@ namespace compliments_complaints_service.Mappers
 
         public static string GenerateDescription(string complaintAbout, string complaintAboutDetails)
         {
-            return $"{complaintAbout}\n\n{complaintAboutDetails}";
+            return $"{complaintAboutDetails}";
         }
     }
 }
