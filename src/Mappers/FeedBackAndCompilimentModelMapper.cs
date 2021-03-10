@@ -26,7 +26,7 @@ namespace compliments_complaints_service.Mappers
             var crmCase = new Case
             {
                 EventCode = (int)eventCode,
-                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Feedback {model.CouncilDepartment}" : $"Feedback - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
+                EventTitle = $"Feedback",
                 Description = $"Name: {name} \nEmail: {email}\n\nFeedback: {model.Description}"
             };
 
