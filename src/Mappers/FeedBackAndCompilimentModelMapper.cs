@@ -23,7 +23,6 @@ namespace compliments_complaints_service.Mappers
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
             string email = string.IsNullOrEmpty(model.EmailAddress) ? "Not provided" : model.EmailAddress;
 
-
             var crmCase = new Case
             {
                 EventCode = (int)eventCode,
@@ -46,11 +45,10 @@ namespace compliments_complaints_service.Mappers
 
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
 
-
             var crmCase = new Case
             {
                 EventCode = (int)eventCode,
-                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Compliment {model.CouncilDepartment}" : $"Compliment - {model.CouncilDepartment} - {model.CouncilDepartmentSub}",
+                EventTitle = $"Compliment",
                 Description = $"Name: {name} \n\n Feedback: {model.Description}"
             };
 
