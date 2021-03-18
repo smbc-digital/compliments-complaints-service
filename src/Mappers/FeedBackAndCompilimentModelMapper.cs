@@ -44,7 +44,7 @@ namespace compliments_complaints_service.Mappers
                 ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
                 : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
-            if ((model.CouncilDepartment == "libraries" || model.CouncilDepartmentSub == "libraries") && Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "prod") {
+            if ((model.CouncilDepartment == "libraries" || model.CouncilDepartmentSub == "libraries") && IsVerintProd()) {
                 eventCode = 2002782;
             }
 
@@ -60,5 +60,8 @@ namespace compliments_complaints_service.Mappers
             return crmCase;
         }
 
+        private static bool IsVerintProd() {
+            return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "prod" || Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "stage";
+        }
     }
 }
