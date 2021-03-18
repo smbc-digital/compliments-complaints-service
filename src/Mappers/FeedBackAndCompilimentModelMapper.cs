@@ -3,6 +3,7 @@ using compliments_complaints_service.Config;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using StockportGovUK.NetStandard.Models.Verint;
+using System;
 
 namespace compliments_complaints_service.Mappers
 {
@@ -42,6 +43,10 @@ namespace compliments_complaints_service.Mappers
             var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
                 ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
                 : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
+
+            if ((model.CouncilDepartment == "libraries" || model.CouncilDepartmentSub == "libraries") && Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "prod") {
+                eventCode = 2002782;
+            }
 
             string name = string.IsNullOrEmpty(model.Name) ? "Not provided" : model.Name;
 
