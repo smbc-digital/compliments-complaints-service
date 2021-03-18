@@ -45,7 +45,7 @@ namespace compliments_complaints_service.Mappers
                 : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
             if  ((model.CouncilDepartment == "libraries" || model.CouncilDepartmentSub == "libraries") && 
-                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "prod" || Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "stage") 
+                (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "prod" || Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "stage")) 
             {
                 eventCode = 2002782;
             }
