@@ -31,17 +31,30 @@ namespace compliments_complaints_service.Mappers
                     Surname = model.LastName,
                     Email = model.EmailAddress,
                     Telephone = model.PhoneNumber,
-                    Address = new Address
+                }
+            };
+
+            if(!string.IsNullOrEmpty(model.CustomersAddress.PlaceRef))
+            {
+                crmCase.Customer.Address = new Address
+                    {
+                        Postcode = model.CustomersAddress.Postcode,
+                        Reference = model.CustomersAddress.PlaceRef,
+                        UPRN = model.CustomersAddress.PlaceRef,
+                        Description = model.CustomersAddress.ToString()
+                    };
+            }
+            else{
+                crmCase.Customer.Address =  new Address
                     {
                         AddressLine1 = model.CustomersAddress.AddressLine1,
                         AddressLine2 = model.CustomersAddress.AddressLine2,
                         AddressLine3 = model.CustomersAddress.Town,
                         Postcode = model.CustomersAddress.Postcode,
-                        Reference = model.CustomersAddress.PlaceRef,
                         Description = model.CustomersAddress.ToString()
-                    }
-                }
-        };
+                    };
+            }
+
 
             return crmCase;
         }
