@@ -3,7 +3,6 @@ using compliments_complaints_service.Models;
 using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;
-using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 
 namespace compliments_complaints_service.Controllers
 {
@@ -16,26 +15,11 @@ namespace compliments_complaints_service.Controllers
         private readonly IComplimentsService _caseService;
 
         public ComplimentsController(IComplimentsService caseService)
-        {
-            _caseService = caseService;
-        }
-
-        [Route("submit-compliment")]
-        [HttpPost]
-        public async Task<IActionResult> CreateCase([FromBody]ComplimentDetails model)
-        {
-            var result = await _caseService.CreateComplimentCase(model);
-
-            return Ok(result);
-        }
+            => _caseService = caseService;
 
         [Route("submit-compliment-form-builder")]
         [HttpPost]
-        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody]FeedbackAndComplimentDetailsFormBuilder model)
-        {
-            var result = await _caseService.CreateComplimentCaseFormBuilder(model);
-
-            return Ok(result);
-        }
+        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody] FeedbackAndComplimentDetailsFormBuilder model)
+            => Ok(await _caseService.CreateComplimentCaseFormBuilder(model));
     }
 }
