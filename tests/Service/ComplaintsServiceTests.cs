@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Collections.Generic;
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
-using StockportGovUK.NetStandard.Gateways.Response;
 using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
 using StockportGovUK.NetStandard.Models.ContactDetails;
 using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
-using StockportGovUK.NetStandard.Models.Verint;
-using Xunit;
 
 namespace compliments_complaints_service_tests.Service
 {
@@ -57,55 +52,6 @@ namespace compliments_complaints_service_tests.Service
             _mockComplaintsList.Setup(_ => _.Value).Returns(config);
             _service = new ComplaintsService(_mockGateway.Object, _mockComplaintsList.Object, _mockMailingGateway.Object, _mockLogger.Object);
         }
-
-        [Fact]
-        public async void CreateComplaintCase_ShouldCallGateway()
-        {
-            // Arrange
-            _mockGateway
-                .Setup(_ => _.CreateCase(It.IsAny<Case>()))
-                .ReturnsAsync(new HttpResponse<string>
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    ResponseContent = "123456"
-                });
-
-            // Act
-            await _service.CreateComplaintCase(model);
-
-            // Assert
-            _mockGateway.Verify(_ => _.CreateCase(It.IsAny<Case>()), Times.Once);
-        }
-
-        [Fact]
-        public async void CreateComplaintCase_ShouldReturnCaseId()
-        {
-            // Arrange
-            _mockGateway
-                .Setup(_ => _.CreateCase(It.IsAny<Case>()))
-                .ReturnsAsync(new HttpResponse<string>
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    ResponseContent = "123456"
-                });
-
-            // Act
-            var result = await _service.CreateComplaintCase(model);
-
-            // Assert
-            Assert.Equal("123456", result);
-        }
-
-        [Fact]
-        public async void CreateComplaintCase_ShouldThrowException()
-        {
-            // Arrange
-            _mockGateway
-                .Setup(_ => _.CreateCase(It.IsAny<Case>()))
-                .ThrowsAsync(new Exception());
-
-            // Act & Assert
-            await Assert.ThrowsAsync<Exception>(() => _service.CreateComplaintCase(model));
-        }
+      
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Mappers;
@@ -11,7 +10,6 @@ using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
 using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Enums;
 using StockportGovUK.NetStandard.Models.Mail;
-using StockportGovUK.NetStandard.Models.Verint;
 using Newtonsoft.Json;
 
 namespace compliments_complaints_service.Services
@@ -33,70 +31,6 @@ namespace compliments_complaints_service.Services
             _complaintsConfig = complaintsConfig;
             _mailingServiceGateway = mailingServiceGateway;
             _logger = logger;
-        }
-
-        public async Task<string> CreateComplaintCase(ComplaintDetails model)
-        {
-            var events = _complaintsConfig.Value.ComplaintsConfigurations;
-
-            var eventCode = string.IsNullOrEmpty(model.CouncilDepartmentSub)
-                ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
-                  : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
-
-            var crmCase = new Case
-            {                          
-                EventCode = (int)eventCode,
-                EventTitle = string.IsNullOrEmpty(model.OtherService) ? $"Complaint - {model.ComplainAboutService}" : $"Complaint - {model.OtherService} - {model.ComplainAboutService}",
-                Description = model.ComplainAboutDetails,
-                Customer = new Customer
-                {
-                    Forename = model.ContactDetails.FirstName,
-                    Surname = model.ContactDetails.LastName,
-                    Email = model.ContactDetails.EmailAddress,
-                    Telephone = model.ContactDetails.PhoneNumber,
-                    Address = new Address()
-                }
-            };
-
-            if (string.IsNullOrEmpty(model.ContactDetails.Address.PlaceRef))
-            {
-                crmCase.Customer.Address.AddressLine1 = model.ContactDetails.Address.AddressLine1;
-                crmCase.Customer.Address.AddressLine2 = model.ContactDetails.Address.AddressLine2;
-                crmCase.Customer.Address.City = model.ContactDetails.Address.Town;
-                crmCase.Customer.Address.Postcode = model.ContactDetails.Address.Postcode;
-            }
-            else
-            {
-                var splitAddress = model.ContactDetails.Address.SelectedAddress.Split(",");
-                crmCase.Customer.Address.AddressLine1 = splitAddress[0];
-                crmCase.Customer.Address.AddressLine2 = splitAddress[1];
-
-                if (splitAddress.Length == 5)
-                {    
-                    crmCase.Customer.Address.AddressLine3 = splitAddress[2];
-                    crmCase.Customer.Address.City = splitAddress[3];
-                    crmCase.Customer.Address.Postcode = splitAddress[4];
-                }
-                else
-                {
-                    crmCase.Customer.Address.City = splitAddress[2];
-                    crmCase.Customer.Address.Postcode = splitAddress[3];
-                }
-
-                crmCase.Customer.Address.UPRN = model.ContactDetails.Address.PlaceRef;
-            }
-
-            try
-            {
-                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
-                var response = await _verintServiceGateway.CreateCase(crmCase);
-                SendUserSuccessEmail(model, response.ResponseContent);
-                return response.ResponseContent;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"ComplimentsComplaintsService CreateComplimentCase an exception has occured while creating the case in verint service", ex);
-            }
         }
 
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)

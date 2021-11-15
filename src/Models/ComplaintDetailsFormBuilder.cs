@@ -1,5 +1,4 @@
 ﻿using StockportGovUK.NetStandard.Models.Addresses;
-using System.ComponentModel.DataAnnotations;
 
 namespace compliments_complaints_service.Models
 {
