@@ -17,7 +17,6 @@ namespace compliments_complaints_service_tests.Service
         private readonly Mock<IVerintServiceGateway> _mockGateway = new Mock<IVerintServiceGateway>();
         private readonly Mock<IMailingServiceGateway> _mockMailingGateway = new Mock<IMailingServiceGateway>();
         private readonly Mock<IOptions<ComplaintsListConfiguration>> _mockComplaintsList = new Mock<IOptions<ComplaintsListConfiguration>>();
-        private readonly Mock<ILogger<ComplaintsService>> _mockLogger = new Mock<ILogger<ComplaintsService>>();
         private readonly ComplaintDetails model = new ComplaintDetails
         {
             EventCode = "4000010",
@@ -50,7 +49,7 @@ namespace compliments_complaints_service_tests.Service
             };
 
             _mockComplaintsList.Setup(_ => _.Value).Returns(config);
-            _service = new ComplaintsService(_mockGateway.Object, _mockComplaintsList.Object, _mockMailingGateway.Object, _mockLogger.Object);
+            _service = new ComplaintsService(_mockGateway.Object, _mockComplaintsList.Object, _mockMailingGateway.Object);
         }
       
     }

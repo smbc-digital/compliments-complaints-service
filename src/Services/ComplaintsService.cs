@@ -4,13 +4,12 @@ using compliments_complaints_service.Config;
 using compliments_complaints_service.Mappers;
 using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
+using Newtonsoft.Json;
 using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
+using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
 using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
 using StockportGovUK.NetStandard.Models.Enums;
 using StockportGovUK.NetStandard.Models.Mail;
-using Newtonsoft.Json;
 
 namespace compliments_complaints_service.Services
 {
@@ -19,28 +18,24 @@ namespace compliments_complaints_service.Services
         private readonly IVerintServiceGateway _verintServiceGateway;
         private readonly IOptions<ComplaintsListConfiguration> _complaintsConfig;
         private readonly IMailingServiceGateway _mailingServiceGateway;
-        private readonly ILogger<ComplaintsService> _logger;
 
         public ComplaintsService(
-            IVerintServiceGateway verintServiceGateway, 
-            IOptions<ComplaintsListConfiguration> complaintsConfig, 
-            IMailingServiceGateway mailingServiceGateway,
-            ILogger<ComplaintsService> logger)
+            IVerintServiceGateway verintServiceGateway,
+            IOptions<ComplaintsListConfiguration> complaintsConfig,
+            IMailingServiceGateway mailingServiceGateway)
         {
             _verintServiceGateway = verintServiceGateway;
             _complaintsConfig = complaintsConfig;
             _mailingServiceGateway = mailingServiceGateway;
-            _logger = logger;
         }
 
         public async Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model)
         {
 
-            
+
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
             {
-                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
                 var response = await _verintServiceGateway.CreateCase(crmCase);
                 SendUserSuccessEmailFormBuilder(model, response.ResponseContent);
                 return response.ResponseContent;

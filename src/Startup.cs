@@ -28,7 +28,7 @@ namespace compliments_complaints_service
         {
             services.AddControllers()
                     .AddNewtonsoftJson();
-                        
+
             services.AddHttpClient();
             services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
             services.AddAvailability();
@@ -63,7 +63,7 @@ namespace compliments_complaints_service
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseHealthChecks("/healthcheck", HealthCheckConfig.Options);
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
