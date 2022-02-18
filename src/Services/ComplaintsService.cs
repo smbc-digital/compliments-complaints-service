@@ -40,7 +40,6 @@ namespace compliments_complaints_service.Services
             var crmCase = ComplaintModelMapper.ToCrmCase(model, _complaintsConfig);
             try
             {
-                _logger.LogWarning($"ComplaintsService.CreateComplaintCase: Attempting to create verint case. {JsonConvert.SerializeObject(crmCase)}");
                 var response = await _verintServiceGateway.CreateCase(crmCase);
                 SendUserSuccessEmailFormBuilder(model, response.ResponseContent);
                 return response.ResponseContent;
