@@ -23,14 +23,14 @@ namespace compliments_complaints_service_tests.Controller
         {
             // Arrange
             _mockService
-                .Setup(_ => _.CreateComplaintCaseFormBuilder(It.IsAny<ComplaintDetailsFormBuilder>()))
+                .Setup(_ => _.CreateComplaintCase(It.IsAny<ComplaintDetailsFormBuilder>()))
                 .ReturnsAsync(It.IsAny<string>());
 
             // Act
-            await _controller.CreateCaseUsingFormBuilder(It.IsAny<ComplaintDetailsFormBuilder>());
+            await _controller.CreateCase(It.IsAny<ComplaintDetailsFormBuilder>());
 
             // Assert
-            _mockService.Verify(_ => _.CreateComplaintCaseFormBuilder(It.IsAny<ComplaintDetailsFormBuilder>()), Times.Once);
+            _mockService.Verify(_ => _.CreateComplaintCase(It.IsAny<ComplaintDetailsFormBuilder>()), Times.Once);
         }
 
         [Fact]
@@ -39,11 +39,11 @@ namespace compliments_complaints_service_tests.Controller
             // Arrange
             //
             _mockService
-                .Setup(_ => _.CreateComplaintCaseFormBuilder(It.IsAny<ComplaintDetailsFormBuilder>()))
+                .Setup(_ => _.CreateComplaintCase(It.IsAny<ComplaintDetailsFormBuilder>()))
                 .ReturnsAsync(It.IsAny<string>());
 
             // Act
-            var result = await _controller.CreateCaseUsingFormBuilder(It.IsAny<ComplaintDetailsFormBuilder>());
+            var result = await _controller.CreateCase(It.IsAny<ComplaintDetailsFormBuilder>());
 
 
             // Assert
