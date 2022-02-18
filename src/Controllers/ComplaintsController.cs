@@ -19,7 +19,7 @@ namespace compliments_complaints_service.Controllers
 
         [Route("submit-complaint-form-builder")]
         [HttpPost]
-        public async Task<IActionResult> CreateCaseUsingFormBuilder([FromBody] ComplaintDetailsFormBuilder model)
-            => Ok(await _caseService.CreateComplaintCaseFormBuilder(model));
+        public async Task<IActionResult> CreateCase([FromBody] ComplaintDetailsFormBuilder model)
+            => Ok(await _caseService.CreateComplaintCase(model));
     }
 }

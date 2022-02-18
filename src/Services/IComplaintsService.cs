@@ -5,6 +5,6 @@ namespace compliments_complaints_service.Services
 {
     public interface IComplaintsService
     {
-        Task<string> CreateComplaintCaseFormBuilder(ComplaintDetailsFormBuilder model);
+        Task<string> CreateComplaintCase(ComplaintDetailsFormBuilder model);
     }
 }
