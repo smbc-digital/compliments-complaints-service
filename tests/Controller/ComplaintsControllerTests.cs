@@ -1,6 +1,6 @@
 ﻿using compliments_complaints_service.Controllers;
-using compliments_complaints_service.Services;
 using compliments_complaints_service.Models;
+using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using compliments_complaints_service.Models;
+﻿using compliments_complaints_service.Models;
 using compliments_complaints_service.Services;
 using Microsoft.AspNetCore.Mvc;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;

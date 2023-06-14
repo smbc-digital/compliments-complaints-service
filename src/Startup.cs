@@ -2,15 +2,9 @@
 using compliments_complaints_service.Config;
 using compliments_complaints_service.Utils.HealthChecks;
 using compliments_complaints_service.Utils.ServiceCollectionExtensions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using StockportGovUK.AspNetCore.Availability;
 using StockportGovUK.AspNetCore.Availability.Middleware;
 using StockportGovUK.AspNetCore.Middleware;
-using StockportGovUK.NetStandard.Gateways;
 
 namespace compliments_complaints_service
 {
@@ -26,15 +20,18 @@ namespace compliments_complaints_service
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
-                    .AddNewtonsoftJson();
-                        
-            services.AddHttpClient();
-            services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
+            services
+                .AddControllers()
+                .AddNewtonsoftJson();
+
+            services.AddGateways(Configuration);
+            services.RegisterServices();
             services.AddAvailability();
             services.AddSwagger();
-            services.AddHealthChecks()
-                    .AddCheck<TestHealthCheck>("TestHealthCheck");
+
+            services
+                .AddHealthChecks()
+                .AddCheck<TestHealthCheck>("TestHealthCheck");
 
             services.Configure<FeedbackListConfiguration>(Configuration.GetSection("FeedbackConfiguration"));
             services.Configure<ComplimentsListConfiguration>(Configuration.GetSection("ComplimentsConfiguration"));
@@ -63,7 +60,7 @@ namespace compliments_complaints_service
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseHealthChecks("/healthcheck", HealthCheckConfig.Options);
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

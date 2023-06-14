@@ -3,10 +3,10 @@ using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
 using Microsoft.Extensions.Options;
 using Moq;
-using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
-using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
-using StockportGovUK.NetStandard.Models.ContactDetails;
-using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Gateways.MailingService;
+using StockportGovUK.NetStandard.Gateways.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Gateways.Models.ContactDetails;
+using StockportGovUK.NetStandard.Gateways.VerintService;
 
 namespace compliments_complaints_service_tests.Service
 {
@@ -24,7 +24,7 @@ namespace compliments_complaints_service_tests.Service
             ComplainAboutDetails = "This is a test... Don't take it seriously",
             ContactDetails = new ContactDetails
             {
-                Address = new StockportGovUK.NetStandard.Models.Addresses.Address()
+                Address = new StockportGovUK.NetStandard.Gateways.Models.Addresses.Address()
             }
         };
 
@@ -50,6 +50,6 @@ namespace compliments_complaints_service_tests.Service
             _mockComplaintsList.Setup(_ => _.Value).Returns(config);
             _service = new ComplaintsService(_mockGateway.Object, _mockComplaintsList.Object, _mockMailingGateway.Object);
         }
-      
+
     }
 }

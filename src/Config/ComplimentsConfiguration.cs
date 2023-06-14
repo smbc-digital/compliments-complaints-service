@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace compliments_complaints_service.Config
+﻿namespace compliments_complaints_service.Config
 {
     public class ComplimentsConfiguration
     {

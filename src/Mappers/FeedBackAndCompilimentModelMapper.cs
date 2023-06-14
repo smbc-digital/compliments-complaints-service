@@ -1,9 +1,7 @@
-﻿using compliments_complaints_service.Models;
-using compliments_complaints_service.Config;
+﻿using compliments_complaints_service.Config;
+using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using System.Linq;
-using StockportGovUK.NetStandard.Models.Verint;
-using System;
+using StockportGovUK.NetStandard.Gateways.Models.Verint;
 
 namespace compliments_complaints_service.Mappers
 {
@@ -44,8 +42,8 @@ namespace compliments_complaints_service.Mappers
                 ? events.FirstOrDefault(_ => _.EventName == model.CouncilDepartment)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode
                 : events.FirstOrDefault(_ => _.EventName == model.CouncilDepartmentSub)?.EventCode ?? events.FirstOrDefault(_ => _.EventName == "none")?.EventCode;
 
-            if  ((model.CouncilDepartment == "libraries" || model.CouncilDepartmentSub == "libraries") && 
-                (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "prod" || Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "stage")) 
+            if ((model.CouncilDepartment == "libraries" || model.CouncilDepartmentSub == "libraries") &&
+                (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "prod" || Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "stage"))
             {
                 eventCode = 2002782;
             }
