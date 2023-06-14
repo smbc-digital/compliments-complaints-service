@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using compliments_complaints_service.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using compliments_complaints_service.Services;
 using Microsoft.OpenApi.Models;
+using StockportGovUK.NetStandard.Gateways.Extensions;
+using StockportGovUK.NetStandard.Gateways.MailingService;
+using StockportGovUK.NetStandard.Gateways.VerintService;
 
 namespace compliments_complaints_service.Utils.ServiceCollectionExtensions
 {
@@ -12,6 +13,14 @@ namespace compliments_complaints_service.Utils.ServiceCollectionExtensions
             services.AddTransient<IComplimentsService, ComplimentsService>();
             services.AddTransient<IComplaintsService, ComplaintsService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
+        }
+
+        public static IServiceCollection AddGateways(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient<IVerintServiceGateway, VerintServiceGateway>(configuration);
+            services.AddHttpClient<IMailingServiceGateway, MailingServiceGateway>(configuration);
+
+            return services;
         }
 
         public static void AddSwagger(this IServiceCollection services)

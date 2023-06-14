@@ -1,9 +1,7 @@
-﻿using compliments_complaints_service.Models;
-using compliments_complaints_service.Config;
+﻿using compliments_complaints_service.Config;
+using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using System.Linq;
-using StockportGovUK.NetStandard.Models.Verint;
-using System;
+using StockportGovUK.NetStandard.Gateways.Models.Verint;
 
 namespace compliments_complaints_service.Mappers
 {
@@ -26,7 +24,8 @@ namespace compliments_complaints_service.Mappers
                 EventCode = (int)eventCode,
                 EventTitle = eventTitle,
                 Description = GenerateDescription(model.ComplaintAbout, model.ComplaintAboutDetails),
-                Customer = new Customer {
+                Customer = new Customer
+                {
                     Forename = model.FirstName,
                     Surname = model.LastName,
                     Email = model.EmailAddress,
@@ -34,25 +33,26 @@ namespace compliments_complaints_service.Mappers
                 }
             };
 
-            if(!string.IsNullOrEmpty(model.CustomersAddress.PlaceRef))
+            if (!string.IsNullOrEmpty(model.CustomersAddress.PlaceRef))
             {
                 crmCase.Customer.Address = new Address
-                    {
-                        Postcode = model.CustomersAddress.Postcode,
-                        Reference = model.CustomersAddress.PlaceRef,
-                        UPRN = model.CustomersAddress.PlaceRef,
-                        Description = model.CustomersAddress.ToString()
-                    };
+                {
+                    Postcode = model.CustomersAddress.Postcode,
+                    Reference = model.CustomersAddress.PlaceRef,
+                    UPRN = model.CustomersAddress.PlaceRef,
+                    Description = model.CustomersAddress.ToString()
+                };
             }
-            else{
-                crmCase.Customer.Address =  new Address
-                    {
-                        AddressLine1 = model.CustomersAddress.AddressLine1,
-                        AddressLine2 = model.CustomersAddress.AddressLine2,
-                        AddressLine3 = model.CustomersAddress.Town,
-                        Postcode = model.CustomersAddress.Postcode,
-                        Description = model.CustomersAddress.ToString()
-                    };
+            else
+            {
+                crmCase.Customer.Address = new Address
+                {
+                    AddressLine1 = model.CustomersAddress.AddressLine1,
+                    AddressLine2 = model.CustomersAddress.AddressLine2,
+                    AddressLine3 = model.CustomersAddress.Town,
+                    Postcode = model.CustomersAddress.Postcode,
+                    Description = model.CustomersAddress.ToString()
+                };
             }
 
 

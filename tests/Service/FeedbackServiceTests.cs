@@ -3,7 +3,7 @@ using compliments_complaints_service.Config;
 using compliments_complaints_service.Services;
 using Microsoft.Extensions.Options;
 using Moq;
-using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
+using StockportGovUK.NetStandard.Gateways.VerintService;
 
 namespace compliments_complaints_service_tests.Service
 {

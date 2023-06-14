@@ -1,15 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using compliments_complaints_service.Config;
+﻿using compliments_complaints_service.Config;
 using compliments_complaints_service.Mappers;
 using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
-using StockportGovUK.NetStandard.Gateways.MailingServiceGateway;
-using StockportGovUK.NetStandard.Models.ComplimentsComplaints;
-using StockportGovUK.NetStandard.Models.Enums;
-using StockportGovUK.NetStandard.Models.Mail;
 using Newtonsoft.Json;
+using StockportGovUK.NetStandard.Gateways.Enums;
+using StockportGovUK.NetStandard.Gateways.MailingService;
+using StockportGovUK.NetStandard.Gateways.Models.ComplimentsComplaints;
+using StockportGovUK.NetStandard.Gateways.Models.Mail;
+using StockportGovUK.NetStandard.Gateways.VerintService;
 
 namespace compliments_complaints_service.Services
 {
@@ -20,8 +18,8 @@ namespace compliments_complaints_service.Services
         private readonly IMailingServiceGateway _mailingServiceGateway;
 
         public ComplaintsService(
-            IVerintServiceGateway verintServiceGateway, 
-            IOptions<ComplaintsListConfiguration> complaintsConfig, 
+            IVerintServiceGateway verintServiceGateway,
+            IOptions<ComplaintsListConfiguration> complaintsConfig,
             IMailingServiceGateway mailingServiceGateway)
         {
             _verintServiceGateway = verintServiceGateway;

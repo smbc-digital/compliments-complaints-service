@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using compliments_complaints_service.Config;
+﻿using compliments_complaints_service.Config;
 using compliments_complaints_service.Mappers;
 using compliments_complaints_service.Models;
 using Microsoft.Extensions.Options;
-using StockportGovUK.NetStandard.Gateways.VerintServiceGateway;
+using StockportGovUK.NetStandard.Gateways.VerintService;
 
 namespace compliments_complaints_service.Services
 {
