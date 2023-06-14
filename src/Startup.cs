@@ -26,7 +26,6 @@ namespace compliments_complaints_service
 
             services.AddGateways(Configuration);
             services.RegisterServices();
-            services.AddAvailability();
             services.AddSwagger();
 
             services
@@ -42,21 +41,12 @@ namespace compliments_complaints_service
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsEnvironment("local"))
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            app.UseExceptionHandler($"/api/v1/error{(env.IsDevelopment() ? "/local" : string.Empty)}");
 
             app.UseHttpsRedirection();
 
-            app.UseMiddleware<Availability>();
-            app.UseMiddleware<ApiExceptionHandling>();
-
             app.UseRouting();
+
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseHealthChecks("/healthcheck", HealthCheckConfig.Options);
@@ -64,8 +54,7 @@ namespace compliments_complaints_service
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(
-                    $"{(env.IsEnvironment("local") ? string.Empty : "/complimentscomplaintsservice")}/swagger/v1/swagger.json", "Compliments complaints service API");
+                c.SwaggerEndpoint("v1/swagger.json", "Compliments and Complaints API");
             });
         }
     }
